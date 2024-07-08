@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/",
+        "noImplicitAny": true,
+        "module": "ESNext",
+        "target": "ESNext",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "react",
+        "types": [
+            "chrome"
+        ],
+        "lib": [
+            "ESNext",
+            "DOM",
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@/shared/*": [
+                "src/shared/*"
+            ],
+        }
+    },
+    "include": [
+        "src",
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+}
