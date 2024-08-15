@@ -88980,31 +88980,90 @@ __webpack_require__.r(__webpack_exports__);
 
 const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.observer)((props) => {
     const { swaggerUI } = props;
-    const { website: { swaggerTool: { autoExecute, autoInitUI, tenant: _tenant, email: _email, password: _password, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
-    const [pass, setPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_password);
-    const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_email);
-    const [tenant, setTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_tenant);
-    const onLogin = () => {
-        swaggerUI.login(tenant, email, pass);
+    const { website: { swaggerTool: { autoExecute, autoInitUI, platformAdminEmail: _platformAdminEmail, platformAdminPassword: _platformAdminPassword, platformAdminTenant: _platformAdminTenant, msspEmail: _msspEmail, msspPassword: _msspPassword, msspTenant: _msspTenant, organizationEmail: _organizationEmail, organizationPassword: _organizationPassword, organizationTenant: _organizationTenant, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
+    const [platformAdminEmail, setPlatformAdminEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_platformAdminEmail);
+    const [platformAdminPassword, setPlatformAdminPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_platformAdminPassword);
+    const [platformAdminTenant, setPlatformAdminTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_platformAdminTenant);
+    const [msspEmail, setMsspEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_msspEmail);
+    const [msspPassword, setMsspPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_msspPassword);
+    const [msspTenant, setMsspTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_msspTenant);
+    const [organizationEmail, setOrganizationEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_organizationEmail);
+    const [organizationPassword, setOrganizationPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_organizationPassword);
+    const [organizationTenant, setOrganizationTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_organizationTenant);
+    const onLoginAsPlatformAdmin = () => {
+        highlightAccountType("platform-admin");
+        swaggerUI.login(platformAdminTenant, platformAdminEmail, platformAdminPassword);
     };
-    const onChange = (e) => {
-        const { value: inputValue } = e.target;
-        setEmail(inputValue);
-        setProp("email", inputValue);
+    const onLoginAsMssp = () => {
+        highlightAccountType("mssp");
+        swaggerUI.login(msspTenant, msspEmail, msspPassword);
     };
-    return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Email", value: email, onChange: onChange }),
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Password", value: pass, onChange: (e) => {
-                    setPass(e.target.value);
-                    setProp("password", e.target.value);
-                } }),
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Tenant", value: tenant, onChange: (e) => {
-                    setTenant(e.target.value);
-                    setProp("tenant", e.target.value);
-                } }),
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], { type: "primary", onClick: onLogin }, "Login as Platform Admin")),
-        react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Otp_Otp__WEBPACK_IMPORTED_MODULE_4__.Otp, null)));
+    const onLoginAsOrganization = () => {
+        highlightAccountType("organization");
+        swaggerUI.login(organizationTenant, organizationEmail, organizationPassword);
+    };
+    const highlightAccountType = (type) => {
+        const accountElements = document.querySelectorAll(".account");
+        accountElements.forEach((element) => {
+            element.style.background = "none"; // hoặc 'transparent'
+        });
+        const loggedInElement = document.querySelector(`.${type}`);
+        if (loggedInElement) {
+            loggedInElement.style.background = "coral";
+        }
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex flex-column items-center" },
+        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account platform-admin" },
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Platform Admin"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Email", value: platformAdminEmail, onChange: (e) => {
+                        setPlatformAdminEmail(e.target.value);
+                        setProp("platformAdminEmail", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Password", value: platformAdminPassword, onChange: (e) => {
+                        setPlatformAdminPass(e.target.value);
+                        setProp("platformAdminPassword", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Tenant", value: platformAdminTenant, onChange: (e) => {
+                        setPlatformAdminTenant(e.target.value);
+                        setProp("platformAdminTenant", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], { type: "primary", onClick: onLoginAsPlatformAdmin }, "Login as Platform Admin")),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Otp_Otp__WEBPACK_IMPORTED_MODULE_4__.Otp, null)),
+        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account mssp" },
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "MSSP"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Email", value: msspEmail, onChange: (e) => {
+                        setMsspEmail(e.target.value);
+                        setProp("msspEmail", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Password", value: msspPassword, onChange: (e) => {
+                        setMsspPass(e.target.value);
+                        setProp("msspPassword", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Tenant", value: msspTenant, onChange: (e) => {
+                        setMsspTenant(e.target.value);
+                        setProp("msspTenant", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], { type: "primary", onClick: onLoginAsMssp }, "Login as MSSP")),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Otp_Otp__WEBPACK_IMPORTED_MODULE_4__.Otp, null)),
+        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account organization" },
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Organization"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Email", value: organizationEmail, onChange: (e) => {
+                        setOrganizationEmail(e.target.value);
+                        setProp("organizationEmail", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Password", value: organizationPassword, onChange: (e) => {
+                        setOrganizationPass(e.target.value);
+                        setProp("organizationPassword", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Tenant", value: organizationTenant, onChange: (e) => {
+                        setOrganizationTenant(e.target.value);
+                        setProp("organizationTenant", e.target.value);
+                    } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], { type: "primary", onClick: onLoginAsOrganization }, "Login as Organization")),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Otp_Otp__WEBPACK_IMPORTED_MODULE_4__.Otp, null))));
 });
 SwaggerHeaderComponent.defaultProps = {};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_shared_withStorage__WEBPACK_IMPORTED_MODULE_1__["default"])(SwaggerHeaderComponent));
@@ -89985,13 +90044,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(_ToolModel__WEBPACK_IMPORTED_MODULE_1__.ToolModel, mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.model({
-    autoInitUI: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.boolean, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.autoInitUI),
-    email: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.username),
-    password: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.password),
-    recaptchaSiteKey: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.recaptchaSiteKey),
-    loginWithOtp: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.boolean, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.loginWithOtp),
+    autoInitUI: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.boolean, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.autoInitUI),
+    recaptchaSiteKey: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.recaptchaSiteKey),
+    loginWithOtp: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.boolean, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.loginWithOtp),
     otpCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, ""),
-    tenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.tenant),
+    platformAdminEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.username),
+    platformAdminPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.password),
+    platformAdminTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.tenant),
+    msspEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.username),
+    msspPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.password),
+    msspTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.tenant),
+    organizationEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.username),
+    organizationPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.password),
+    organizationTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.tenant),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -90005,14 +90070,20 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     },
 }));
 const SWAGGER_MODEL_DEFAULT = {
-    autoInitUI: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.autoInitUI,
-    matchRegexUrls: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.matchRegexUrls,
-    email: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.username,
-    password: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.password,
-    recaptchaSiteKey: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.recaptchaSiteKey,
-    loginWithOtp: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.loginWithOtp,
+    autoInitUI: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.autoInitUI,
+    recaptchaSiteKey: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.recaptchaSiteKey,
+    loginWithOtp: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.loginWithOtp,
+    matchRegexUrls: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.matchRegexUrls,
     otpCode: "",
-    tenant: "xxx",
+    platformAdminEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.username,
+    platformAdminPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.password,
+    platformAdminTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.tenant,
+    msspEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.username,
+    msspPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.password,
+    msspTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.tenant,
+    organizationEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.username,
+    organizationPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.password,
+    organizationTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.tenant,
 };
 
 
@@ -90958,9 +91029,15 @@ class SwaggerUIX {
         const loginUrl = this._baseUrl
             ? `${this._baseUrl}/auth/login`
             : `${location.origin}/api/v1/auth/login`;
-        const email = _email ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.email ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.username;
-        const password = _password ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.password ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.password;
-        const tenant = _tenant || _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.tenant || _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.tenant;
+        const email = _email ??
+            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminEmail ??
+            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.username;
+        const password = _password ??
+            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminPassword ??
+            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.password;
+        const tenant = _tenant ||
+            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminTenant ||
+            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.tenant;
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {
@@ -91020,9 +91097,15 @@ class SwaggerUIX {
         const loginUrl = this._baseUrl
             ? `${this._baseUrl}/auth/login`
             : `${location.origin}/api/v1/auth/login`;
-        const email = _email ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.email ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.username;
-        const password = _password ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.password ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.password;
-        const tenant = _tenant ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.tenant ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.tenant;
+        const email = _email ??
+            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminEmail ??
+            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.username;
+        const password = _password ??
+            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminPassword ??
+            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.password;
+        const tenant = _tenant ||
+            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminTenant ||
+            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.tenant;
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {
@@ -92958,7 +93041,7 @@ function filter (array, pattern) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"cr":{"username":"admin@cybereason.com","password":"Ab@12345678","tenant":"xxx","autoInitUI":true,"recaptchaSiteKey":"","loginWithOtp":false,"matchRegexUrls":[".*"]}}');
+module.exports = JSON.parse('{"cr":{"common":{"autoInitUI":true,"recaptchaSiteKey":"","loginWithOtp":false,"matchRegexUrls":[".*"]},"platform_admin":{"username":"admin@cybereason.com","password":"Ab@12345678","tenant":"xxx"},"mssp":{"username":"tester@cybereason.com","password":"Ab@12345678","tenant":"yyy"},"organization":{"username":"tester1@cybereason.com","password":"Ab@12345678","tenant":"organizationDomain"}}}');
 
 /***/ })
 

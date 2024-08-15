@@ -703,9 +703,18 @@ export class SwaggerUIX {
     const loginUrl = this._baseUrl
       ? `${this._baseUrl}/auth/login`
       : `${location.origin}/api/v1/auth/login`
-    const email = _email ?? _rootStore.website.swaggerTool.email ?? config.cr.username
-    const password = _password ?? _rootStore.website.swaggerTool.password ?? config.cr.password
-    const tenant = _tenant || _rootStore.website.swaggerTool.tenant || config.cr.tenant
+    const email =
+      _email ??
+      _rootStore.website.swaggerTool.platformAdminEmail ??
+      config.cr.platform_admin.username
+    const password =
+      _password ??
+      _rootStore.website.swaggerTool.platformAdminPassword ??
+      config.cr.platform_admin.password
+    const tenant =
+      _tenant ||
+      _rootStore.website.swaggerTool.platformAdminTenant ||
+      config.cr.platform_admin.tenant
 
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
@@ -771,9 +780,18 @@ export class SwaggerUIX {
     const loginUrl = this._baseUrl
       ? `${this._baseUrl}/auth/login`
       : `${location.origin}/api/v1/auth/login`
-    const email = _email ?? _rootStore.website.swaggerTool.email ?? config.cr.username
-    const password = _password ?? _rootStore.website.swaggerTool.password ?? config.cr.password
-    const tenant = _tenant ?? _rootStore.website.swaggerTool.tenant ?? config.cr.tenant
+    const email =
+      _email ??
+      _rootStore.website.swaggerTool.platformAdminEmail ??
+      config.cr.platform_admin.username
+    const password =
+      _password ??
+      _rootStore.website.swaggerTool.platformAdminPassword ??
+      config.cr.platform_admin.password
+    const tenant =
+      _tenant ||
+      _rootStore.website.swaggerTool.platformAdminTenant ||
+      config.cr.platform_admin.tenant
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
 

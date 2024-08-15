@@ -8,13 +8,19 @@ export const SwaggerModel = types
   .compose(
     ToolModel,
     types.model({
-      autoInitUI: types.optional(types.boolean, config.cr.autoInitUI),
-      email: types.optional(types.string, config.cr.username),
-      password: types.optional(types.string, config.cr.password),
-      recaptchaSiteKey: types.optional(types.string, config.cr.recaptchaSiteKey),
-      loginWithOtp: types.optional(types.boolean, config.cr.loginWithOtp),
+      autoInitUI: types.optional(types.boolean, config.cr.common.autoInitUI),
+      recaptchaSiteKey: types.optional(types.string, config.cr.common.recaptchaSiteKey),
+      loginWithOtp: types.optional(types.boolean, config.cr.common.loginWithOtp),
       otpCode: types.optional(types.string, ""),
-      tenant: types.optional(types.string, config.cr.tenant),
+      platformAdminEmail: types.optional(types.string, config.cr.platform_admin.username),
+      platformAdminPassword: types.optional(types.string, config.cr.platform_admin.password),
+      platformAdminTenant: types.optional(types.string, config.cr.platform_admin.tenant),
+      msspEmail: types.optional(types.string, config.cr.mssp.username),
+      msspPassword: types.optional(types.string, config.cr.mssp.password),
+      msspTenant: types.optional(types.string, config.cr.mssp.tenant),
+      organizationEmail: types.optional(types.string, config.cr.organization.username),
+      organizationPassword: types.optional(types.string, config.cr.organization.password),
+      organizationTenant: types.optional(types.string, config.cr.organization.tenant),
     }),
   )
   .named("SwaggerModel")
@@ -35,12 +41,18 @@ export type SwaggerSnapshotIn = SnapshotIn<typeof SwaggerModel>
 export type SwaggerSnapshot = SnapshotOut<typeof SwaggerModel>
 
 export const SWAGGER_MODEL_DEFAULT: SwaggerSnapshot = {
-  autoInitUI: config.cr.autoInitUI,
-  matchRegexUrls: config.cr.matchRegexUrls,
-  email: config.cr.username,
-  password: config.cr.password,
-  recaptchaSiteKey: config.cr.recaptchaSiteKey,
-  loginWithOtp: config.cr.loginWithOtp,
+  autoInitUI: config.cr.common.autoInitUI,
+  recaptchaSiteKey: config.cr.common.recaptchaSiteKey,
+  loginWithOtp: config.cr.common.loginWithOtp,
+  matchRegexUrls: config.cr.common.matchRegexUrls,
   otpCode: "",
-  tenant: "xxx",
+  platformAdminEmail: config.cr.platform_admin.username,
+  platformAdminPassword: config.cr.platform_admin.password,
+  platformAdminTenant: config.cr.platform_admin.tenant,
+  msspEmail: config.cr.mssp.username,
+  msspPassword: config.cr.mssp.password,
+  msspTenant: config.cr.mssp.tenant,
+  organizationEmail: config.cr.organization.username,
+  organizationPassword: config.cr.organization.password,
+  organizationTenant: config.cr.organization.tenant,
 }
