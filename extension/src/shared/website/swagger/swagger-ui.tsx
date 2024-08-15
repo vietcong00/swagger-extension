@@ -690,30 +690,32 @@ export class SwaggerUIX {
     })
   }
 
-  async login(_email?: string, _password?: string, isFirst?: boolean) {
+  async login(_tenant?: string, _email?: string, _password?: string, isFirst?: boolean) {
     if (this.loginMethod === "1") {
-      await this.login1(_email, _password, isFirst)
+      await this.login1(_tenant, _email, _password, isFirst)
     } else {
-      await this.login2(_email, _password, isFirst)
+      await this.login2(_tenant, _email, _password, isFirst)
     }
   }
 
-  async login1(_email?: string, _password?: string, isFirst?: boolean) {
+  async login1(_tenant?: string, _email?: string, _password?: string, isFirst?: boolean) {
     const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
     const loginUrl = this._baseUrl
       ? `${this._baseUrl}/auth/login`
       : `${location.origin}/api/v1/auth/login`
     const email = _email ?? _rootStore.website.swaggerTool.email ?? config.cr.username
     const password = _password ?? _rootStore.website.swaggerTool.password ?? config.cr.password
+    const tenant = _tenant || _rootStore.website.swaggerTool.tenant || config.cr.tenant
+
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
-
       return new Promise((resolve, reject) => {
         fetch(loginUrl, {
           headers: {
             accept: "application/json, text/plain, */*",
             "content-type": "application/json",
             recaptcha,
+            tenant,
           },
           body: JSON.stringify(data),
           method: "POST",
@@ -764,13 +766,14 @@ export class SwaggerUIX {
     })()
   }
 
-  async login2(_email?: string, _password?: string, isFirst?: boolean) {
+  async login2(_tenant?: string, _email?: string, _password?: string, isFirst?: boolean) {
     const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
     const loginUrl = this._baseUrl
       ? `${this._baseUrl}/auth/login`
       : `${location.origin}/api/v1/auth/login`
     const email = _email ?? _rootStore.website.swaggerTool.email ?? config.cr.username
     const password = _password ?? _rootStore.website.swaggerTool.password ?? config.cr.password
+    const tenant = _tenant ?? _rootStore.website.swaggerTool.tenant ?? config.cr.tenant
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
 
@@ -780,6 +783,7 @@ export class SwaggerUIX {
             accept: "application/json, text/plain, */*",
             "content-type": "application/json",
             recaptcha,
+            tenant,
           },
           body: JSON.stringify(data),
           method: "POST",

@@ -132,7 +132,7 @@ const setupSwagger = async () => {
 
         if (_rootStore.website.swaggerTool.autoInitUI) {
           await swaggerUI.initUI()
-          // swaggerUI.login(undefined, undefined, true)
+          swaggerUI.login("", undefined, undefined, true)
         }
         ;(window as any).swaggerUI = swaggerUI
       }, 3000)
@@ -162,7 +162,7 @@ const setupSwagger = async () => {
 
         if (_rootStore.website.swaggerTool.autoInitUI) {
           await swaggerUI.initUI()
-          swaggerUI.login(undefined, undefined, true)
+          swaggerUI.login("", undefined, undefined, true)
         }
         ;(window as any).swaggerUI = swaggerUI
       }, 3000)

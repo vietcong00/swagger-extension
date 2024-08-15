@@ -4,6 +4,7 @@
     "password": "123456",
     "autoInitUI": true,
     "recaptchaSiteKey": "",
+    "tenant": "xxx",
     "loginWithOtp": false,
     "matchRegexUrls": [".*"]
   }
