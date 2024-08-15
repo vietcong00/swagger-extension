@@ -14,6 +14,7 @@ export const SwaggerModel = types
       recaptchaSiteKey: types.optional(types.string, config.cr.recaptchaSiteKey),
       loginWithOtp: types.optional(types.boolean, config.cr.loginWithOtp),
       otpCode: types.optional(types.string, ""),
+      tenant: types.optional(types.string, config.cr.tenant),
     }),
   )
   .named("SwaggerModel")
@@ -41,4 +42,5 @@ export const SWAGGER_MODEL_DEFAULT: SwaggerSnapshot = {
   recaptchaSiteKey: config.cr.recaptchaSiteKey,
   loginWithOtp: config.cr.loginWithOtp,
   otpCode: "",
+  tenant: "xxx",
 }

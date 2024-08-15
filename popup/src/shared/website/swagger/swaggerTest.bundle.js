@@ -88980,11 +88980,12 @@ __webpack_require__.r(__webpack_exports__);
 
 const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.observer)((props) => {
     const { swaggerUI } = props;
-    const { website: { swaggerTool: { autoExecute, autoInitUI, email: _email, password: _password, setProp }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
+    const { website: { swaggerTool: { autoExecute, autoInitUI, tenant: _tenant, email: _email, password: _password, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
     const [pass, setPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_password);
     const [email, setEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_email);
+    const [tenant, setTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_tenant);
     const onLogin = () => {
-        swaggerUI.login(email, pass);
+        swaggerUI.login(tenant, email, pass);
     };
     const onChange = (e) => {
         const { value: inputValue } = e.target;
@@ -88998,7 +88999,11 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
                     setPass(e.target.value);
                     setProp("password", e.target.value);
                 } }),
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], { type: "primary", onClick: onLogin }, "Login")),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { placeholder: "Tenant", value: tenant, onChange: (e) => {
+                    setTenant(e.target.value);
+                    setProp("tenant", e.target.value);
+                } }),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_6__["default"], { type: "primary", onClick: onLogin }, "Login as Platform Admin")),
         react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Otp_Otp__WEBPACK_IMPORTED_MODULE_4__.Otp, null)));
 });
 SwaggerHeaderComponent.defaultProps = {};
@@ -89986,6 +89991,7 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     recaptchaSiteKey: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.recaptchaSiteKey),
     loginWithOtp: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.boolean, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.loginWithOtp),
     otpCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, ""),
+    tenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.tenant),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -90006,6 +90012,7 @@ const SWAGGER_MODEL_DEFAULT = {
     recaptchaSiteKey: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.recaptchaSiteKey,
     loginWithOtp: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.loginWithOtp,
     otpCode: "",
+    tenant: "xxx",
 };
 
 
@@ -90938,21 +90945,22 @@ class SwaggerUIX {
             });
         });
     }
-    async login(_email, _password, isFirst) {
+    async login(_tenant, _email, _password, isFirst) {
         if (this.loginMethod === "1") {
-            await this.login1(_email, _password, isFirst);
+            await this.login1(_tenant, _email, _password, isFirst);
         }
         else {
-            await this.login2(_email, _password, isFirst);
+            await this.login2(_tenant, _email, _password, isFirst);
         }
     }
-    async login1(_email, _password, isFirst) {
+    async login1(_tenant, _email, _password, isFirst) {
         const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
         const loginUrl = this._baseUrl
             ? `${this._baseUrl}/auth/login`
             : `${location.origin}/api/v1/auth/login`;
         const email = _email ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.email ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.username;
         const password = _password ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.password ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.password;
+        const tenant = _tenant || _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.tenant || _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.tenant;
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {
@@ -90961,6 +90969,7 @@ class SwaggerUIX {
                         accept: "application/json, text/plain, */*",
                         "content-type": "application/json",
                         recaptcha,
+                        tenant,
                     },
                     body: JSON.stringify(data),
                     method: "POST",
@@ -91006,13 +91015,14 @@ class SwaggerUIX {
             this.setTokenToSwagger(jwtToken);
         })();
     }
-    async login2(_email, _password, isFirst) {
+    async login2(_tenant, _email, _password, isFirst) {
         const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
         const loginUrl = this._baseUrl
             ? `${this._baseUrl}/auth/login`
             : `${location.origin}/api/v1/auth/login`;
         const email = _email ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.email ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.username;
         const password = _password ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.password ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.password;
+        const tenant = _tenant ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.tenant ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.tenant;
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {
@@ -91021,6 +91031,7 @@ class SwaggerUIX {
                         accept: "application/json, text/plain, */*",
                         "content-type": "application/json",
                         recaptcha,
+                        tenant,
                     },
                     body: JSON.stringify(data),
                     method: "POST",
@@ -92947,7 +92958,7 @@ function filter (array, pattern) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"cr":{"username":"admin@cybereason.com","password":"Ab@12345678","matchRegexUrls":[".*swagger.*"],"recaptchaSiteKey":"6LdsWXopAAAAAHuWRtUBmw_3Sw61Ft66-0MjUQcS","loginWithOtp":false,"autoInitUI":true}}');
+module.exports = JSON.parse('{"cr":{"username":"admin@cybereason.com","password":"Ab@12345678","tenant":"xxx","autoInitUI":true,"recaptchaSiteKey":"","loginWithOtp":false,"matchRegexUrls":[".*"]}}');
 
 /***/ })
 
@@ -93114,7 +93125,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     const swaggerUI = new _swagger_ui__WEBPACK_IMPORTED_MODULE_1__.SwaggerUIX({ storageType: "localStorage", swaggerUIBundle: undefined });
     swaggerUI.initUI();
-    swaggerUI.login();
+    swaggerUI.login("", undefined, undefined, true);
     window.swaggerUI = swaggerUI;
 })();
 

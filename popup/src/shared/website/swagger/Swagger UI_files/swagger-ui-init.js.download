@@ -6299,6 +6299,11 @@ window.onload = function() {
               "type": "string",
               "maxLength": 255,
               "default": "Ab@12345678"
+            },
+            "tenant": {
+              "type": "string",
+              "maxLength": 255,
+              "default": "xxx"
             }
           },
           "required": [
