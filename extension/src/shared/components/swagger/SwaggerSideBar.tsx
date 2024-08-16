@@ -38,6 +38,7 @@ export const SwaggerSideBarComponent: FC<Props> = observer((props: Props) => {
           onClick={(e) => {
             groupApi.$el.scrollIntoView(true)
           }}
+          style={{ marginLeft: "10px" }}
         >
           Go
         </div>

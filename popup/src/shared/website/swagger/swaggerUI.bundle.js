@@ -89035,7 +89035,7 @@ const SwaggerSideBarComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_1__.
             children: react__WEBPACK_IMPORTED_MODULE_2___default().createElement(GroupApiComponent, { groupApi: groupApi }),
             extra: (react__WEBPACK_IMPORTED_MODULE_2___default().createElement("div", { onClick: (e) => {
                     groupApi.$el.scrollIntoView(true);
-                } }, "Go")),
+                }, style: { marginLeft: "10px" } }, "Go")),
             style: {
                 fontWeight: "bolder",
             },
@@ -92816,9 +92816,15 @@ class SwaggerUIX {
         this.$mainWrapper.style.flexDirection = "row";
         this.$mainWrapper.style.maxWidth = `fit-content`;
         this.$mainWrapper.style.padding = `0px 30px`;
-        this.$mainWrapper.style.height = `${window.innerHeight - this.$schemaContainer.offsetHeight - 50}px`;
+        this.$mainWrapper.style.height = `${window.innerHeight - 210}px`;
+        const test = document.querySelector("div.scheme-container");
+        console.log("test: ", test.offsetHeight);
+        console.log("window.innerHeight: ", window.innerHeight);
+        console.log("this.$schemaContainer.offsetHeight : ", this.$schemaContainer.offsetHeight);
+        console.log("this.$schemaContainer : ", this.$schemaContainer);
+        console.log("this.$schemaContainer.offsetHeight : ", this.$schemaContainer.offsetHeight);
         this.$mainWrapper.style.backgroundColor = `#eaeaea`;
-        this.$sideBar.style.width = `25rem`;
+        this.$sideBar.style.width = `40rem`;
         this.$sideBar.style.overflowY = `auto`;
         // this.$sideBar.style.marginRight = `3rem`
         this.$sectionWrapper.style.width = `100rem`;
