@@ -49,6 +49,12 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
     swaggerUI.login(platformAdminTenant, platformAdminEmail, platformAdminPassword)
   }
 
+  const onLoginWithApiAccessToken = () => {
+    highlightAccountType("api-access-token")
+
+    swaggerUI.loginWithApiAccessToken(platformAdminTenant, platformAdminEmail, platformAdminPassword)
+  }
+
   const onLoginAsMssp = () => {
     highlightAccountType("mssp")
     swaggerUI.login(msspTenant, msspEmail, msspPassword)
@@ -73,7 +79,7 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
 
   return (
     <div className="flex flex-column items-center">
-      <div className="flex items-center account platform-admin">
+      <div className="flex items-center">
         <div className="flex items-center">
           <p>Platform Admin</p>
           <Input
@@ -100,14 +106,21 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               setProp("platformAdminTenant", e.target.value)
             }}
           />
-          <Button type="primary" onClick={onLoginAsPlatformAdmin}>
-            Login as Platform Admin
+          <div className="flex items-center account platform-admin" style={{marginLeft: '10px', padding: '0 10px'}}>
+            <Button type="primary" onClick={onLoginAsPlatformAdmin}>
+              Login as Platform Admin
+            </Button>
+          </div>
+          <div className="flex items-center account api-access-token" style={{marginLeft: '10px', padding: '0 10px'}}>
+          <Button type="primary" onClick={onLoginWithApiAccessToken}>
+              Login with Api access token
           </Button>
         </div>
-        <Otp />
+        </div>
+        {/* <Otp /> */}
       </div>
 
-      <div className="flex items-center account mssp">
+      <div className="flex items-center">
         <div className="flex items-center">
           <p>MSSP</p>
           <Input
@@ -134,14 +147,16 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               setProp("msspTenant", e.target.value)
             }}
           />
-          <Button type="primary" onClick={onLoginAsMssp}>
-            Login as MSSP
-          </Button>
+          <div className="flex items-center account mssp" style={{marginLeft: '10px', padding: '0 10px'}}>
+            <Button type="primary" onClick={onLoginAsMssp}>
+              Login as MSSP
+            </Button>
+          </div>
         </div>
-        <Otp />
+        {/* <Otp /> */}
       </div>
 
-      <div className="flex items-center account organization">
+      <div className="flex items-center">
         <div className="flex items-center">
           <p>Organization</p>
           <Input
@@ -168,11 +183,13 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               setProp("organizationTenant", e.target.value)
             }}
           />
-          <Button type="primary" onClick={onLoginAsOrganization}>
-            Login as Organization
-          </Button>
+          <div className="flex items-center account organization" style={{marginLeft: '10px', padding: '0 10px'}}>
+            <Button type="primary" onClick={onLoginAsOrganization}>
+              Login as Organization
+            </Button>
+          </div>
         </div>
-        <Otp />
+        {/* <Otp /> */}
       </div>
     </div>
   )

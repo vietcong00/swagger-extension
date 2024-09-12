@@ -1,7 +1,7 @@
 import React from "react"
 import { UIManager } from "@/shared/components/UIManager"
 import { SwaggerSideBarComponent } from "@/shared/components/swagger/SwaggerSideBar"
-import { delay, getGlobalVar, injectReplaceCSS, waitUntil } from "@/shared/helper.common"
+import { injectReplaceCSS, waitUntil } from "@/shared/helper.common"
 import { StorageType } from "@/shared/services/storage"
 import withStorage from "@/shared/withStorage"
 import { SwaggerHeaderComponent } from "@/shared/components/swagger/SwaggerHeader"
@@ -11,14 +11,11 @@ import {
   injectCopyToClipboard,
   injectCopyToClipboardField,
 } from "@/shared/scripts/injectCopyToClipboard"
-import SwaggerExtraRightSection, {
+import {
   SwaggerExtraRightSectionComponent,
 } from "@/shared/components/swagger/SwaggerExtraRightSection"
-import { notification } from "antd"
 import { NotificationManager } from "@/shared/services/notification"
-import { ReCaptcha, reCaptchaRef } from "@/shared/components/ReCaptcha/ReCaptcha"
 import { _rootStore } from "@/shared/models"
-import { Otp } from "@/shared/components/Otp/Otp"
 
 // function whenAvailable(name: any, callback: any) {
 //     const interval = 10; // ms
@@ -521,14 +518,6 @@ export class SwaggerUIX {
     this.$mainWrapper.style.padding = `0px 30px`
 
     this.$mainWrapper.style.height = `${window.innerHeight - 210}px`
-    const test = document.querySelector("div.scheme-container") as HTMLDivElement
-    console.log("test: ", test.offsetHeight)
-
-    console.log("window.innerHeight: ", window.innerHeight)
-    console.log("this.$schemaContainer.offsetHeight : ", this.$schemaContainer.offsetHeight)
-    console.log("this.$schemaContainer : ", this.$schemaContainer)
-    console.log("this.$schemaContainer.offsetHeight : ", this.$schemaContainer.offsetHeight)
-
     this.$mainWrapper.style.backgroundColor = `#eaeaea`
 
     this.$sideBar.style.width = `40rem`
@@ -855,6 +844,113 @@ export class SwaggerUIX {
         )?.data?.accessToken?.token
       }
       this.setTokenToSwagger(jwtToken)
+    })()
+  }
+
+  async loginWithApiAccessToken(_tenant?: string, _email?: string, _password?: string) {
+    const loginUrl = this._baseUrl
+      ? `${this._baseUrl}/auth/login`
+      : `${location.origin}/api/v1/auth/login`
+    const generateAPiAccessTokenUrl = this._baseUrl
+      ? `${this._baseUrl}/api-access-token`
+      : `${location.origin}/api/v1/api-access-token`
+    const email =
+      _email ??
+      _rootStore.website.swaggerTool.platformAdminEmail ??
+      config.cr.platform_admin.username
+    const password =
+      _password ??
+      _rootStore.website.swaggerTool.platformAdminPassword ??
+      config.cr.platform_admin.password
+    const tenant =
+      _tenant ||
+      _rootStore.website.swaggerTool.platformAdminTenant ||
+      config.cr.platform_admin.tenant
+
+    const callLogin = async (data: any) => {
+      const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
+      return new Promise((resolve, reject) => {
+        fetch(loginUrl, {
+          headers: {
+            accept: "application/json, text/plain, */*",
+            "content-type": "application/json",
+            recaptcha,
+            tenant,
+          },
+          body: JSON.stringify(data),
+          method: "POST",
+          mode: "cors",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.data?.accessToken?.token) {
+              NotificationManager.success({ message: `Login successful [${email}]` })
+            } else {
+              NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` })
+            }
+            resolve(data)
+          })
+          .catch((err) => {
+            NotificationManager.error({ message: `Login fail [${email}]` })
+            this.logger.error(err)
+          })
+      })
+    };
+    const callGenerateApiAccessToken= async (token: string) => {
+      return new Promise((resolve) => {
+        fetch(generateAPiAccessTokenUrl, {
+          headers: {
+            accept: "application/json, text/plain, */*",
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+            tenant,
+          },
+          body: JSON.stringify(
+            {
+              "name": "Token name"
+            }
+          ),
+          method: "POST",
+          mode: "cors",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data?.data?.token) {
+              NotificationManager.success({ message: `Login With Api Access Token successful [${email}]` })
+            } else {
+              NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` })
+            }
+            resolve(data)
+          })
+          .catch((err) => {
+            NotificationManager.error({ message: `Login fail [${email}]` })
+            this.logger.error(err)
+          })
+      })
+    };
+    (async () => {
+      const payload = {
+        provider: "email",
+        email,
+        password,
+      }
+
+      const res = (await callLogin(payload)) as any
+      const jwtToken = res?.data?.accessToken?.token
+      if (!jwtToken?.length) {
+        return
+      }
+      this.logger.info(`jwtToken: ${res?.data?.accessToken?.token}`)
+
+      const apiAccessTokenRes = (await callGenerateApiAccessToken(jwtToken)) as any
+
+      const apiAccessToken = apiAccessTokenRes?.data?.token
+      if (!apiAccessToken?.length) {
+        return
+      }
+      this.logger.info(`apiAccessToken ${apiAccessTokenRes?.data?.token}`)
+      
+      this.setTokenToSwagger(apiAccessToken)
     })()
   }
 }
