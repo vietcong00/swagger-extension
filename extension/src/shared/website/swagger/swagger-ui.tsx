@@ -11,9 +11,7 @@ import {
   injectCopyToClipboard,
   injectCopyToClipboardField,
 } from "@/shared/scripts/injectCopyToClipboard"
-import {
-  SwaggerExtraRightSectionComponent,
-} from "@/shared/components/swagger/SwaggerExtraRightSection"
+import { SwaggerExtraRightSectionComponent } from "@/shared/components/swagger/SwaggerExtraRightSection"
 import { NotificationManager } from "@/shared/services/notification"
 import { _rootStore } from "@/shared/models"
 
@@ -406,6 +404,10 @@ export class SwaggerUIX {
     return document.querySelector("section.models") as HTMLDivElement
   }
 
+  get $opblockSummaryPaths() {
+    return document.querySelectorAll(".opblock-summary-path") as NodeListOf<HTMLDivElement>
+  }
+
   storageType: StorageType = "chromeStorage"
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function, no-useless-constructor
@@ -530,6 +532,9 @@ export class SwaggerUIX {
     this.$swaggerContainer.style.maxHeight = `${window.innerHeight}px`
     this.$swaggerContainer.style.overflow = `hidden`
 
+    this.$opblockSummaryPaths.forEach((element) => {
+      element.style.maxWidth = `calc(100% - 8rem)`
+    })
     const SwaggerSideBar = withStorage(SwaggerSideBarComponent, { storageType: this.storageType })
     const SwaggerHeader = withStorage(SwaggerHeaderComponent, { storageType: this.storageType })
     const SwaggerExtraRightSection = withStorage(SwaggerExtraRightSectionComponent, {
@@ -895,8 +900,8 @@ export class SwaggerUIX {
             this.logger.error(err)
           })
       })
-    };
-    const callGenerateApiAccessToken= async (token: string) => {
+    }
+    const callGenerateApiAccessToken = async (token: string) => {
       return new Promise((resolve) => {
         fetch(generateAPiAccessTokenUrl, {
           headers: {
@@ -905,18 +910,18 @@ export class SwaggerUIX {
             Authorization: `Bearer ${token}`,
             tenant,
           },
-          body: JSON.stringify(
-            {
-              "name": "Token name"
-            }
-          ),
+          body: JSON.stringify({
+            name: "Token name",
+          }),
           method: "POST",
           mode: "cors",
         })
           .then((res) => res.json())
           .then((data) => {
             if (data?.data?.token) {
-              NotificationManager.success({ message: `Login With Api Access Token successful [${email}]` })
+              NotificationManager.success({
+                message: `Login With Api Access Token successful [${email}]`,
+              })
             } else {
               NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` })
             }
@@ -927,8 +932,8 @@ export class SwaggerUIX {
             this.logger.error(err)
           })
       })
-    };
-    (async () => {
+    }
+    ;(async () => {
       const payload = {
         provider: "email",
         email,
@@ -949,7 +954,7 @@ export class SwaggerUIX {
         return
       }
       this.logger.info(`apiAccessToken ${apiAccessTokenRes?.data?.token}`)
-      
+
       this.setTokenToSwagger(apiAccessToken)
     })()
   }

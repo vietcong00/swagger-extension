@@ -90259,6 +90259,9 @@ class SwaggerUIX {
     get $models() {
         return document.querySelector("section.models");
     }
+    get $opblockSummaryPaths() {
+        return document.querySelectorAll(".opblock-summary-path");
+    }
     storageType = "chromeStorage";
     // eslint-disable-next-line @typescript-eslint/no-empty-function, no-useless-constructor
     constructor(opts) {
@@ -90362,6 +90365,9 @@ class SwaggerUIX {
         this.$sectionWrapper.style.maxHeight = `60rem`;
         this.$swaggerContainer.style.maxHeight = `${window.innerHeight}px`;
         this.$swaggerContainer.style.overflow = `hidden`;
+        this.$opblockSummaryPaths.forEach((element) => {
+            element.style.maxWidth = `calc(100% - 8rem)`;
+        });
         const SwaggerSideBar = (0,_shared_withStorage__WEBPACK_IMPORTED_MODULE_4__["default"])(_shared_components_swagger_SwaggerSideBar__WEBPACK_IMPORTED_MODULE_2__.SwaggerSideBarComponent, { storageType: this.storageType });
         const SwaggerHeader = (0,_shared_withStorage__WEBPACK_IMPORTED_MODULE_4__["default"])(_shared_components_swagger_SwaggerHeader__WEBPACK_IMPORTED_MODULE_5__.SwaggerHeaderComponent, { storageType: this.storageType });
         const SwaggerExtraRightSection = (0,_shared_withStorage__WEBPACK_IMPORTED_MODULE_4__["default"])(_shared_components_swagger_SwaggerExtraRightSection__WEBPACK_IMPORTED_MODULE_9__.SwaggerExtraRightSectionComponent, {
@@ -90691,7 +90697,7 @@ class SwaggerUIX {
                         tenant,
                     },
                     body: JSON.stringify({
-                        "name": "Token name"
+                        name: "Token name",
                     }),
                     method: "POST",
                     mode: "cors",
@@ -90699,7 +90705,9 @@ class SwaggerUIX {
                     .then((res) => res.json())
                     .then((data) => {
                     if (data?.data?.token) {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.success({ message: `Login With Api Access Token successful [${email}]` });
+                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.success({
+                            message: `Login With Api Access Token successful [${email}]`,
+                        });
                     }
                     else {
                         _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` });
