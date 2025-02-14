@@ -88411,23 +88411,31 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
             element.style.background = "coral";
         });
     };
-    return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "100%" } },
-        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px", marginBottom: "10px" } },
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "20%" } },
+    return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "100%", display: "flex", gap: "20px" } },
+        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: {
+                width: "200px",
+                paddingRight: "20px",
+                borderRight: "1px solid #e8e8e8",
+            } },
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { marginBottom: "10px" } },
                 react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Login Channel", value: loginChannel, onChange: (e) => {
                         setLoginChannel(e.target.value);
                         setProp("loginChannel", e.target.value);
-                    }, style: { marginBottom: "10px" } }),
+                    } })),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null,
                 react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Device ID", value: deviceId, onChange: (e) => {
                         setDeviceId(e.target.value);
                         setProp("deviceId", e.target.value);
-                    } })),
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "15%" } },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account admin-account", style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Admin"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account performer-account", style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Performer"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account user-account", style: { height: "32px", lineHeight: "32px" } }, "User")),
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "45%", display: "flex", flexDirection: "column", gap: "10px" } },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px" } },
+                    } }))),
+        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { flex: 1, paddingLeft: "20px" } },
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center", style: {
+                    marginBottom: "10px",
+                    gap: "10px",
+                    paddingBottom: "10px",
+                    borderBottom: "1px solid #e8e8e8",
+                } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account admin-account", style: { width: "80px" } }, "Admin"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { flex: 1, display: "flex", gap: "10px" } },
                     react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin Iam User ID", value: adminIamUserId, onChange: (e) => {
                             setAdminIamUserId(e.target.value);
                             setProp("adminIamUserId", e.target.value);
@@ -88440,7 +88448,15 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
                             setAdminId(e.target.value);
                             setProp("adminId", e.target.value);
                         } })),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px" } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsAdmin }, "Admin")),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center", style: {
+                    marginBottom: "10px",
+                    gap: "10px",
+                    paddingBottom: "10px",
+                    borderBottom: "1px solid #e8e8e8",
+                } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account performer-account", style: { width: "80px" } }, "Performer"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { flex: 1, display: "flex", gap: "10px" } },
                     react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer Iam User ID", value: performerIamUserId, onChange: (e) => {
                             setPerformerIamUserId(e.target.value);
                             setProp("performerIamUserId", e.target.value);
@@ -88453,7 +88469,13 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
                             setPerformerId(e.target.value);
                             setProp("performerId", e.target.value);
                         } })),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px" } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsPerformer }, "Performer")),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center", style: {
+                    gap: "10px",
+                    paddingBottom: "10px",
+                } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account user-account", style: { width: "80px" } }, "User"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { flex: 1, display: "flex", gap: "10px" } },
                     react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User Iam User ID", value: userIamUserId, onChange: (e) => {
                             setUserIamUserId(e.target.value);
                             setProp("userIamUserId", e.target.value);
@@ -88465,17 +88487,8 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
                     react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User ID", value: userId, onChange: (e) => {
                             setUserId(e.target.value);
                             setProp("userId", e.target.value);
-                        } }))),
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "5%", display: "flex", flexDirection: "column", gap: "10px" } },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null,
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account admin-account", style: { marginBottom: "5px" } },
-                        react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsAdmin }, "Admin")),
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account api-access-token" },
-                        react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginWithApiAccessToken }, "Temp User"))),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account performer-account" },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsPerformer }, "Performer")),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account user-account" },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsUser }, "User"))))));
+                        } })),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsUser }, "User")))));
 });
 SwaggerHeaderComponent.defaultProps = {};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_shared_withStorage__WEBPACK_IMPORTED_MODULE_1__["default"])(SwaggerHeaderComponent));

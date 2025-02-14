@@ -105,10 +105,16 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
   }
 
   return (
-    <div style={{ width: "100%" }}>
-      <div className="flex" style={{ gap: "10px", marginBottom: "10px" }}>
-        {/* Column 1: Common inputs */}
-        <div style={{ width: "20%" }}>
+    <div style={{ width: "100%", display: "flex", gap: "20px" }}>
+      {/* Column 1: Common Settings */}
+      <div
+        style={{
+          width: "200px",
+          paddingRight: "20px",
+          borderRight: "1px solid #e8e8e8",
+        }}
+      >
+        <div style={{ marginBottom: "10px" }}>
           <Input
             placeholder="Login Channel"
             value={loginChannel}
@@ -116,8 +122,9 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               setLoginChannel(e.target.value)
               setProp("loginChannel", e.target.value)
             }}
-            style={{ marginBottom: "10px" }}
           />
+        </div>
+        <div>
           <Input
             placeholder="Device ID"
             value={deviceId}
@@ -127,30 +134,24 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
             }}
           />
         </div>
+      </div>
 
-        {/* Column 2: Account Types */}
-        <div style={{ width: "15%" }}>
-          <div
-            className="account admin-account"
-            style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}
-          >
+      {/* Column 2: Account Settings */}
+      <div style={{ flex: 1, paddingLeft: "20px" }}>
+        {/* Admin Row */}
+        <div
+          className="flex items-center"
+          style={{
+            marginBottom: "10px",
+            gap: "10px",
+            paddingBottom: "10px",
+            borderBottom: "1px solid #e8e8e8",
+          }}
+        >
+          <div className="account admin-account" style={{ width: "80px" }}>
             Admin
           </div>
-          <div
-            className="account performer-account"
-            style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}
-          >
-            Performer
-          </div>
-          <div className="account user-account" style={{ height: "32px", lineHeight: "32px" }}>
-            User
-          </div>
-        </div>
-
-        {/* Column 3: Account Inputs */}
-        <div style={{ width: "45%", display: "flex", flexDirection: "column", gap: "10px" }}>
-          {/* Admin inputs */}
-          <div className="flex" style={{ gap: "10px" }}>
+          <div style={{ flex: 1, display: "flex", gap: "10px" }}>
             <Input
               placeholder="Admin Iam User ID"
               value={adminIamUserId}
@@ -176,9 +177,25 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               }}
             />
           </div>
+          <Button type="primary" onClick={onLoginAsAdmin}>
+            Admin
+          </Button>
+        </div>
 
-          {/* Performer inputs */}
-          <div className="flex" style={{ gap: "10px" }}>
+        {/* Performer Row */}
+        <div
+          className="flex items-center"
+          style={{
+            marginBottom: "10px",
+            gap: "10px",
+            paddingBottom: "10px",
+            borderBottom: "1px solid #e8e8e8",
+          }}
+        >
+          <div className="account performer-account" style={{ width: "80px" }}>
+            Performer
+          </div>
+          <div style={{ flex: 1, display: "flex", gap: "10px" }}>
             <Input
               placeholder="Performer Iam User ID"
               value={performerIamUserId}
@@ -204,9 +221,23 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               }}
             />
           </div>
+          <Button type="primary" onClick={onLoginAsPerformer}>
+            Performer
+          </Button>
+        </div>
 
-          {/* User inputs */}
-          <div className="flex" style={{ gap: "10px" }}>
+        {/* User Row */}
+        <div
+          className="flex items-center"
+          style={{
+            gap: "10px",
+            paddingBottom: "10px",
+          }}
+        >
+          <div className="account user-account" style={{ width: "80px" }}>
+            User
+          </div>
+          <div style={{ flex: 1, display: "flex", gap: "10px" }}>
             <Input
               placeholder="User Iam User ID"
               value={userIamUserId}
@@ -232,32 +263,9 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               }}
             />
           </div>
-        </div>
-
-        {/* Column 4: Buttons */}
-        <div style={{ width: "5%", display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div>
-            <div className="account admin-account" style={{ marginBottom: "5px" }}>
-              <Button type="primary" onClick={onLoginAsAdmin}>
-                Admin
-              </Button>
-            </div>
-            <div className="account api-access-token">
-              <Button type="primary" onClick={onLoginWithApiAccessToken}>
-                Temp User
-              </Button>
-            </div>
-          </div>
-          <div className="account performer-account">
-            <Button type="primary" onClick={onLoginAsPerformer}>
-              Performer
-            </Button>
-          </div>
-          <div className="account user-account">
-            <Button type="primary" onClick={onLoginAsUser}>
-              User
-            </Button>
-          </div>
+          <Button type="primary" onClick={onLoginAsUser}>
+            User
+          </Button>
         </div>
       </div>
     </div>
