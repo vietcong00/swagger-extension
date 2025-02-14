@@ -26,6 +26,8 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
         userIamUserId: _userIamUserId = undefined,
         userEmail: _userEmail = undefined,
         userId: _userId = undefined,
+        loginChannel: _loginChannel = undefined,
+        deviceId: _deviceId = undefined,
         setProp,
       },
     },
@@ -42,9 +44,20 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
   const [userEmail, setUserEmail] = useState(_userEmail)
   const [userId, setUserId] = useState(_userId)
 
+  const [loginChannel, setLoginChannel] = useState(_loginChannel)
+  const [deviceId, setDeviceId] = useState(_deviceId)
+
   const onLoginAsAdmin = () => {
     highlightAccountType("admin")
-    swaggerUI.login(adminIamUserId, adminEmail, adminId, "administrator")
+    swaggerUI.login(
+      adminIamUserId,
+      adminEmail,
+      adminId,
+      "administrator",
+      false,
+      loginChannel,
+      deviceId,
+    )
   }
 
   const onLoginWithApiAccessToken = () => {
@@ -59,12 +72,20 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
 
   const onLoginAsPerformer = () => {
     highlightAccountType("performer")
-    swaggerUI.login(performerIamUserId, performerEmail, performerId, "performer")
+    swaggerUI.login(
+      performerIamUserId,
+      performerEmail,
+      performerId,
+      "performer",
+      false,
+      loginChannel,
+      deviceId,
+    )
   }
 
   const onLoginAsUser = () => {
     highlightAccountType("user")
-    swaggerUI.login(userIamUserId, userEmail, userId, "user")
+    swaggerUI.login(userIamUserId, userEmail, userId, "user", false, loginChannel, deviceId)
   }
 
   const highlightAccountType = (type: string) => {
@@ -80,124 +101,145 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
   }
 
   return (
-    <div className="flex flex-column items-center">
-      <div className="flex items-center" style={{ width: '100%', marginBottom: '20px' }}>
-        <div style={{ width: '100px' }}>
-          <p style={{ margin: 0 }}>Admin</p>
-        </div>
-        <div className="flex items-center" style={{ gap: '10px' }}>
+    <div style={{ width: "100%" }}>
+      <div className="flex" style={{ gap: "10px", marginBottom: "10px" }}>
+        {/* Column 1: Common inputs */}
+        <div style={{ width: "20%" }}>
           <Input
-            placeholder="Admin Iam User ID"
-            value={adminIamUserId}
+            placeholder="Login Channel"
+            value={loginChannel}
             onChange={(e) => {
-              setAdminIamUserId(e.target.value)
-              setProp("adminIamUserId", e.target.value)
+              setLoginChannel(e.target.value)
+              setProp("loginChannel", e.target.value)
             }}
+            style={{ marginBottom: "10px" }}
           />
           <Input
-            placeholder="Admin email"
-            value={adminEmail}
+            placeholder="Device ID"
+            value={deviceId}
             onChange={(e) => {
-              setAdminEmail(e.target.value)
-              setProp("adminEmail", e.target.value)
-            }}
-          />
-          <Input
-            placeholder="Admin ID"
-            value={adminId}
-            onChange={(e) => {
-              setAdminId(e.target.value)
-              setProp("adminId", e.target.value)
+              setDeviceId(e.target.value)
+              setProp("deviceId", e.target.value)
             }}
           />
         </div>
-        <div className="flex items-center" style={{ gap: '10px', marginLeft: '10px' }}>
-          <div className="account admin-account">
-            <Button type="primary" onClick={onLoginAsAdmin}>
-              Login as Admin
-            </Button>
-          </div>
-          <div className="account api-access-token">
-            <Button type="primary" onClick={onLoginWithApiAccessToken}>
-              Login with Api access token
-            </Button>
-          </div>
-        </div>
-      </div>
 
-      <div className="flex items-center" style={{ width: '100%', marginBottom: '20px' }}>
-        <div style={{ width: '100px' }}>
-          <p style={{ margin: 0 }}>Performer</p>
+        {/* Column 2: Account Types */}
+        <div style={{ width: "15%" }}>
+          <div style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}>Admin</div>
+          <div style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}>Performer</div>
+          <div style={{ height: "32px", lineHeight: "32px" }}>User</div>
         </div>
-        <div className="flex items-center" style={{ gap: '10px' }}>
-          <Input
-            placeholder="Performer Iam User ID"
-            value={performerIamUserId}
-            onChange={(e) => {
-              setPerformerIamUserId(e.target.value)
-              setProp("performerIamUserId", e.target.value)
-            }}
-          />
-          <Input
-            placeholder="Performer email"
-            value={performerEmail}
-            onChange={(e) => {
-              setPerformerEmail(e.target.value)
-              setProp("performerEmail", e.target.value)
-            }}
-          />
-          <Input
-            placeholder="Performer ID"
-            value={performerId}
-            onChange={(e) => {
-              setPerformerId(e.target.value)
-              setProp("performerId", e.target.value)
-            }}
-          />
+
+        {/* Column 3: Account Inputs */}
+        <div style={{ width: "45%", display: "flex", flexDirection: "column", gap: "10px" }}>
+          {/* Admin inputs */}
+          <div className="flex" style={{ gap: "10px" }}>
+            <Input
+              placeholder="Admin Iam User ID"
+              value={adminIamUserId}
+              onChange={(e) => {
+                setAdminIamUserId(e.target.value)
+                setProp("adminIamUserId", e.target.value)
+              }}
+            />
+            <Input
+              placeholder="Admin email"
+              value={adminEmail}
+              onChange={(e) => {
+                setAdminEmail(e.target.value)
+                setProp("adminEmail", e.target.value)
+              }}
+            />
+            <Input
+              placeholder="Admin ID"
+              value={adminId}
+              onChange={(e) => {
+                setAdminId(e.target.value)
+                setProp("adminId", e.target.value)
+              }}
+            />
+          </div>
+
+          {/* Performer inputs */}
+          <div className="flex" style={{ gap: "10px" }}>
+            <Input
+              placeholder="Performer Iam User ID"
+              value={performerIamUserId}
+              onChange={(e) => {
+                setPerformerIamUserId(e.target.value)
+                setProp("performerIamUserId", e.target.value)
+              }}
+            />
+            <Input
+              placeholder="Performer email"
+              value={performerEmail}
+              onChange={(e) => {
+                setPerformerEmail(e.target.value)
+                setProp("performerEmail", e.target.value)
+              }}
+            />
+            <Input
+              placeholder="Performer ID"
+              value={performerId}
+              onChange={(e) => {
+                setPerformerId(e.target.value)
+                setProp("performerId", e.target.value)
+              }}
+            />
+          </div>
+
+          {/* User inputs */}
+          <div className="flex" style={{ gap: "10px" }}>
+            <Input
+              placeholder="User Iam User ID"
+              value={userIamUserId}
+              onChange={(e) => {
+                setUserIamUserId(e.target.value)
+                setProp("userIamUserId", e.target.value)
+              }}
+            />
+            <Input
+              placeholder="User email"
+              value={userEmail}
+              onChange={(e) => {
+                setUserEmail(e.target.value)
+                setProp("userEmail", e.target.value)
+              }}
+            />
+            <Input
+              placeholder="User ID"
+              value={userId}
+              onChange={(e) => {
+                setUserId(e.target.value)
+                setProp("userId", e.target.value)
+              }}
+            />
+          </div>
         </div>
-        <div className="flex items-center" style={{ marginLeft: '10px' }}>
+
+        {/* Column 4: Buttons */}
+        <div style={{ width: "5%", display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div>
+            <div className="account admin-account" style={{ marginBottom: "5px" }}>
+              <Button type="primary" onClick={onLoginAsAdmin}>
+                Admin
+              </Button>
+            </div>
+            <div className="account api-access-token">
+              <Button type="primary" onClick={onLoginWithApiAccessToken}>
+                Temp User
+              </Button>
+            </div>
+          </div>
           <div className="account performer-account">
             <Button type="primary" onClick={onLoginAsPerformer}>
-              Login as Performer
+              Performer
             </Button>
           </div>
-        </div>
-      </div>
-
-      <div className="flex items-center" style={{ width: '100%' }}>
-        <div style={{ width: '100px' }}>
-          <p style={{ margin: 0 }}>User</p>
-        </div>
-        <div className="flex items-center" style={{ gap: '10px' }}>
-          <Input
-            placeholder="User Iam User ID"
-            value={userIamUserId}
-            onChange={(e) => {
-              setUserIamUserId(e.target.value)
-              setProp("userIamUserId", e.target.value)
-            }}
-          />
-          <Input
-            placeholder="User email"
-            value={userEmail}
-            onChange={(e) => {
-              setUserEmail(e.target.value)
-              setProp("userEmail", e.target.value)
-            }}
-          />
-          <Input
-            placeholder="User ID"
-            value={userId}
-            onChange={(e) => {
-              setUserId(e.target.value)
-              setProp("userId", e.target.value)
-            }}
-          />
-        </div>
-        <div className="flex items-center" style={{ marginLeft: '10px' }}>
           <div className="account user-account">
             <Button type="primary" onClick={onLoginAsUser}>
-              Login as User
+              User
             </Button>
           </div>
         </div>

@@ -696,6 +696,8 @@ export class SwaggerUIX {
     _accountId?: string,
     _accountType?: string,
     isFirst?: boolean,
+    _loginChannel?: string,
+    _deviceId?: string,
   ) {
     const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
     const loginUrl = this._baseUrl
@@ -716,6 +718,8 @@ export class SwaggerUIX {
       email = email ?? config.cr.admin.email
       accountId = accountId ?? config.cr.admin.accountId
     }
+    const loginChannel = _loginChannel || "web"
+    const deviceId = _deviceId || "device-id"
 
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
@@ -725,7 +729,8 @@ export class SwaggerUIX {
             accept: "application/json, text/plain, */*",
             "content-type": "application/json",
             recaptcha,
-            "x-client-device-type": "web",
+            "x-client-device-type": loginChannel,
+            "x-client-device-id": deviceId,
           },
           method: "GET",
           mode: "cors",

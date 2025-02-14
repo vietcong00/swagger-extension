@@ -20,6 +20,8 @@ export const SwaggerModel = types
       userIamUserId: types.optional(types.string, config.cr.user.iamUserId),
       userEmail: types.optional(types.string, config.cr.user.email),
       userId: types.optional(types.string, config.cr.user.accountId),
+      loginChannel: types.optional(types.string, "web"),
+      deviceId: types.optional(types.string, "device-id"),
     }),
   )
   .named("SwaggerModel")
@@ -54,4 +56,6 @@ export const SWAGGER_MODEL_DEFAULT: SwaggerSnapshot = {
   userIamUserId: config.cr.user.iamUserId,
   userEmail: config.cr.user.email,
   userId: config.cr.user.accountId,
+  loginChannel: "web",
+  deviceId: "device-id",
 }

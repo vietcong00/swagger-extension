@@ -93915,7 +93915,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.observer)((props) => {
     const { swaggerUI } = props;
-    const { website: { swaggerTool: { autoExecute, autoInitUI, adminIamUserId: _adminIamUserId = undefined, adminEmail: _adminEmail = undefined, adminId: _adminId = undefined, performerIamUserId: _performerIamUserId = undefined, performerEmail: _performerEmail = undefined, performerId: _performerId = undefined, userIamUserId: _userIamUserId = undefined, userEmail: _userEmail = undefined, userId: _userId = undefined, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
+    const { website: { swaggerTool: { autoExecute, autoInitUI, adminIamUserId: _adminIamUserId = undefined, adminEmail: _adminEmail = undefined, adminId: _adminId = undefined, performerIamUserId: _performerIamUserId = undefined, performerEmail: _performerEmail = undefined, performerId: _performerId = undefined, userIamUserId: _userIamUserId = undefined, userEmail: _userEmail = undefined, userId: _userId = undefined, loginChannel: _loginChannel = undefined, deviceId: _deviceId = undefined, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
     const [adminIamUserId, setAdminIamUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminIamUserId);
     const [adminEmail, setAdminEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminEmail);
     const [adminId, setAdminId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminId);
@@ -93925,9 +93925,11 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
     const [userIamUserId, setUserIamUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_userIamUserId);
     const [userEmail, setUserEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_userEmail);
     const [userId, setUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_userId);
+    const [loginChannel, setLoginChannel] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_loginChannel);
+    const [deviceId, setDeviceId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_deviceId);
     const onLoginAsAdmin = () => {
         highlightAccountType("admin");
-        swaggerUI.login(adminIamUserId, adminEmail, adminId, "administrator");
+        swaggerUI.login(adminIamUserId, adminEmail, adminId, "administrator", false, loginChannel, deviceId);
     };
     const onLoginWithApiAccessToken = () => {
         highlightAccountType("api-access-token");
@@ -93939,11 +93941,11 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
     };
     const onLoginAsPerformer = () => {
         highlightAccountType("performer");
-        swaggerUI.login(performerIamUserId, performerEmail, performerId, "performer");
+        swaggerUI.login(performerIamUserId, performerEmail, performerId, "performer", false, loginChannel, deviceId);
     };
     const onLoginAsUser = () => {
         highlightAccountType("user");
-        swaggerUI.login(userIamUserId, userEmail, userId, "user");
+        swaggerUI.login(userIamUserId, userEmail, userId, "user", false, loginChannel, deviceId);
     };
     const highlightAccountType = (type) => {
         const accountElements = document.querySelectorAll(".account");
@@ -93955,60 +93957,71 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
             loggedInElement.style.background = "coral";
         }
     };
-    return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex flex-column items-center" },
-        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Admin"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin Iam User ID", value: adminIamUserId, onChange: (e) => {
-                        setAdminIamUserId(e.target.value);
-                        setProp("adminIamUserId", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin email", value: adminEmail, onChange: (e) => {
-                        setAdminEmail(e.target.value);
-                        setProp("adminEmail", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin ID", value: adminId, onChange: (e) => {
-                        setAdminId(e.target.value);
-                        setProp("adminId", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account admin-account", style: { marginLeft: "10px", padding: "0 10px" } },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsAdmin }, "Login as Admin")),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account api-access-token", style: { marginLeft: "10px", padding: "0 10px" } },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginWithApiAccessToken }, "Login with Api access token")))),
-        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Performer"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer Iam User ID", value: performerIamUserId, onChange: (e) => {
-                        setPerformerIamUserId(e.target.value);
-                        setProp("performerIamUserId", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer email", value: performerEmail, onChange: (e) => {
-                        setPerformerEmail(e.target.value);
-                        setProp("performerEmail", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer ID", value: performerId, onChange: (e) => {
-                        setPerformerId(e.target.value);
-                        setProp("performerId", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account performer-account", style: { marginLeft: "10px", padding: "0 10px" } },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsPerformer }, "Login as Performer")))),
-        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "User"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User Iam User ID", value: userIamUserId, onChange: (e) => {
-                        setUserIamUserId(e.target.value);
-                        setProp("userIamUserId", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User email", value: userEmail, onChange: (e) => {
-                        setUserEmail(e.target.value);
-                        setProp("userEmail", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User ID", value: userId, onChange: (e) => {
-                        setUserId(e.target.value);
-                        setProp("userId", e.target.value);
-                    } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account user-account", style: { marginLeft: "10px", padding: "0 10px" } },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsUser }, "Login as User"))))));
+    return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "100%" } },
+        react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px", marginBottom: "10px" } },
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "20%" } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Login Channel", value: loginChannel, onChange: (e) => {
+                        setLoginChannel(e.target.value);
+                        setProp("loginChannel", e.target.value);
+                    }, style: { marginBottom: "10px" } }),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Device ID", value: deviceId, onChange: (e) => {
+                        setDeviceId(e.target.value);
+                        setProp("deviceId", e.target.value);
+                    } })),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "15%" } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Admin"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Performer"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { height: "32px", lineHeight: "32px" } }, "User")),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "45%", display: "flex", flexDirection: "column", gap: "10px" } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px" } },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin Iam User ID", value: adminIamUserId, onChange: (e) => {
+                            setAdminIamUserId(e.target.value);
+                            setProp("adminIamUserId", e.target.value);
+                        } }),
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin email", value: adminEmail, onChange: (e) => {
+                            setAdminEmail(e.target.value);
+                            setProp("adminEmail", e.target.value);
+                        } }),
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin ID", value: adminId, onChange: (e) => {
+                            setAdminId(e.target.value);
+                            setProp("adminId", e.target.value);
+                        } })),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px" } },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer Iam User ID", value: performerIamUserId, onChange: (e) => {
+                            setPerformerIamUserId(e.target.value);
+                            setProp("performerIamUserId", e.target.value);
+                        } }),
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer email", value: performerEmail, onChange: (e) => {
+                            setPerformerEmail(e.target.value);
+                            setProp("performerEmail", e.target.value);
+                        } }),
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer ID", value: performerId, onChange: (e) => {
+                            setPerformerId(e.target.value);
+                            setProp("performerId", e.target.value);
+                        } })),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px" } },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User Iam User ID", value: userIamUserId, onChange: (e) => {
+                            setUserIamUserId(e.target.value);
+                            setProp("userIamUserId", e.target.value);
+                        } }),
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User email", value: userEmail, onChange: (e) => {
+                            setUserEmail(e.target.value);
+                            setProp("userEmail", e.target.value);
+                        } }),
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User ID", value: userId, onChange: (e) => {
+                            setUserId(e.target.value);
+                            setProp("userId", e.target.value);
+                        } }))),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "5%", display: "flex", flexDirection: "column", gap: "10px" } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null,
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account admin-account", style: { marginBottom: "5px" } },
+                        react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsAdmin }, "Admin")),
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account api-access-token" },
+                        react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginWithApiAccessToken }, "Temp User"))),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account performer-account" },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsPerformer }, "Performer")),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account user-account" },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsUser }, "User"))))));
 });
 SwaggerHeaderComponent.defaultProps = {};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_shared_withStorage__WEBPACK_IMPORTED_MODULE_1__["default"])(SwaggerHeaderComponent));
@@ -95002,6 +95015,8 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     userIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId),
     userEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email),
     userId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId),
+    loginChannel: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "web"),
+    deviceId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "device-id"),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -95029,6 +95044,8 @@ const SWAGGER_MODEL_DEFAULT = {
     userIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId,
     userEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email,
     userId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId,
+    loginChannel: "web",
+    deviceId: "device-id",
 };
 
 
@@ -95967,7 +95984,7 @@ class SwaggerUIX {
             });
         });
     }
-    async login(_iamUserId, _email, _accountId, _accountType, isFirst) {
+    async login(_iamUserId, _email, _accountId, _accountType, isFirst, _loginChannel, _deviceId) {
         const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
         const loginUrl = this._baseUrl
             ? `${this._baseUrl}/test/auth/login`
@@ -95988,6 +96005,8 @@ class SwaggerUIX {
             email = email ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.admin.email;
             accountId = accountId ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.admin.accountId;
         }
+        const loginChannel = _loginChannel || "web";
+        const deviceId = _deviceId || "device-id";
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {
@@ -95996,7 +96015,8 @@ class SwaggerUIX {
                         accept: "application/json, text/plain, */*",
                         "content-type": "application/json",
                         recaptcha,
-                        "x-client-device-type": "web",
+                        "x-client-device-type": loginChannel,
+                        "x-client-device-id": deviceId,
                     },
                     method: "GET",
                     mode: "cors",

@@ -22066,6 +22066,8 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     userIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId),
     userEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email),
     userId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId),
+    loginChannel: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "web"),
+    deviceId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "device-id"),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -22093,6 +22095,8 @@ const SWAGGER_MODEL_DEFAULT = {
     userIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId,
     userEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email,
     userId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId,
+    loginChannel: "web",
+    deviceId: "device-id",
 };
 
 
