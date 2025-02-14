@@ -89,15 +89,19 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
   }
 
   const highlightAccountType = (type: string) => {
-    const accountElements = document.querySelectorAll(".account") as NodeListOf<HTMLElement>
-    accountElements.forEach((element) => {
-      element.style.background = "none" // hoặc 'transparent'
+    // Reset all account elements first
+    const allAccountElements = document.querySelectorAll(".account") as NodeListOf<HTMLElement>
+    allAccountElements.forEach((element) => {
+      element.style.background = "none"
     })
 
-    const loggedInElement = document.querySelector(`.${type}`) as HTMLElement | null
-    if (loggedInElement) {
-      loggedInElement.style.background = "coral"
-    }
+    // Then highlight the selected account elements
+    const selectedElements = document.querySelectorAll(
+      `.${type}-account`,
+    ) as NodeListOf<HTMLElement>
+    selectedElements.forEach((element) => {
+      element.style.background = "coral"
+    })
   }
 
   return (
@@ -126,9 +130,21 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
 
         {/* Column 2: Account Types */}
         <div style={{ width: "15%" }}>
-          <div style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}>Admin</div>
-          <div style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}>Performer</div>
-          <div style={{ height: "32px", lineHeight: "32px" }}>User</div>
+          <div
+            className="account admin-account"
+            style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}
+          >
+            Admin
+          </div>
+          <div
+            className="account performer-account"
+            style={{ marginBottom: "10px", height: "32px", lineHeight: "32px" }}
+          >
+            Performer
+          </div>
+          <div className="account user-account" style={{ height: "32px", lineHeight: "32px" }}>
+            User
+          </div>
         </div>
 
         {/* Column 3: Account Inputs */}

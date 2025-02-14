@@ -88482,14 +88482,16 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
         swaggerUI.login(userIamUserId, userEmail, userId, "user", false, loginChannel, deviceId);
     };
     const highlightAccountType = (type) => {
-        const accountElements = document.querySelectorAll(".account");
-        accountElements.forEach((element) => {
-            element.style.background = "none"; // hoặc 'transparent'
+        // Reset all account elements first
+        const allAccountElements = document.querySelectorAll(".account");
+        allAccountElements.forEach((element) => {
+            element.style.background = "none";
         });
-        const loggedInElement = document.querySelector(`.${type}`);
-        if (loggedInElement) {
-            loggedInElement.style.background = "coral";
-        }
+        // Then highlight the selected account elements
+        const selectedElements = document.querySelectorAll(`.${type}-account`);
+        selectedElements.forEach((element) => {
+            element.style.background = "coral";
+        });
     };
     return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "100%" } },
         react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px", marginBottom: "10px" } },
@@ -88503,9 +88505,9 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
                         setProp("deviceId", e.target.value);
                     } })),
             react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "15%" } },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Admin"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Performer"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { height: "32px", lineHeight: "32px" } }, "User")),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account admin-account", style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Admin"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account performer-account", style: { marginBottom: "10px", height: "32px", lineHeight: "32px" } }, "Performer"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "account user-account", style: { height: "32px", lineHeight: "32px" } }, "User")),
             react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { width: "45%", display: "flex", flexDirection: "column", gap: "10px" } },
                 react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex", style: { gap: "10px" } },
                     react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin Iam User ID", value: adminIamUserId, onChange: (e) => {
