@@ -12,6 +12,6 @@ import "../../../assets/scss/copy-field.scss"
   const swaggerUI = new SwaggerUIX({ storageType: "localStorage", swaggerUIBundle: undefined })
 
   swaggerUI.initUI()
-  swaggerUI.login("", undefined, undefined, true)
+  swaggerUI.login(undefined, undefined, undefined, undefined, true)
   ;(window as any).swaggerUI = swaggerUI
 })()

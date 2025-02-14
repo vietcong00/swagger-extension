@@ -1,4 +1,4 @@
-export const AUTHOR = "Quan Le"
+export const AUTHOR = "Tung NT"
 
 export enum ERegexUrl {
   MATCH_ALL = ".*",

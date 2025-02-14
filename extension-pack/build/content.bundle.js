@@ -21231,7 +21231,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AUTHOR": () => (/* binding */ AUTHOR),
 /* harmony export */   "ERegexUrl": () => (/* binding */ ERegexUrl)
 /* harmony export */ });
-const AUTHOR = "Quan Le";
+const AUTHOR = "Tung NT";
 var ERegexUrl;
 (function (ERegexUrl) {
     ERegexUrl["MATCH_ALL"] = ".*";
@@ -22057,15 +22057,15 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     recaptchaSiteKey: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.recaptchaSiteKey),
     loginWithOtp: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.boolean, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.loginWithOtp),
     otpCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, ""),
-    platformAdminEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.username),
-    platformAdminPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.password),
-    platformAdminTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.tenant),
-    msspEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.username),
-    msspPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.password),
-    msspTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.tenant),
-    organizationEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.username),
-    organizationPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.password),
-    organizationTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.tenant),
+    adminIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.iamUserId),
+    adminEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.email),
+    adminId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.accountId),
+    performerIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.iamUserId),
+    performerEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.email),
+    performerId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.accountId),
+    userIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId),
+    userEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email),
+    userId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -22084,15 +22084,15 @@ const SWAGGER_MODEL_DEFAULT = {
     loginWithOtp: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.loginWithOtp,
     matchRegexUrls: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.matchRegexUrls,
     otpCode: "",
-    platformAdminEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.username,
-    platformAdminPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.password,
-    platformAdminTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.tenant,
-    msspEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.username,
-    msspPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.password,
-    msspTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.tenant,
-    organizationEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.username,
-    organizationPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.password,
-    organizationTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.tenant,
+    adminIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.iamUserId,
+    adminEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.email,
+    adminId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.accountId,
+    performerIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.iamUserId,
+    performerEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.email,
+    performerId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.accountId,
+    userIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId,
+    userEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email,
+    userId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId,
 };
 
 
@@ -22453,7 +22453,7 @@ function _typeof(obj) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"cr":{"common":{"autoInitUI":true,"recaptchaSiteKey":"","loginWithOtp":false,"matchRegexUrls":[".*"]},"platform_admin":{"username":"admin@cybereason.com","password":"Ab@12345678","tenant":"xxx"},"mssp":{"username":"tester@cybereason.com","password":"Ab@12345678","tenant":"yyy"},"organization":{"username":"tester1@cybereason.com","password":"Ab@12345678","tenant":"organizationDomain"}}}');
+module.exports = JSON.parse('{"cr":{"common":{"autoInitUI":true,"recaptchaSiteKey":"","loginWithOtp":false,"matchRegexUrls":[".*"]},"admin":{"iamUserId":"1","email":"tungnt@tokyotechlab.com","accountId":"1"},"performer":{"iamUserId":"2","email":"tungnt@tokyotechlab.com","accountId":"1"},"user":{"iamUserId":"27","email":"tungnt@tokyotechlab.com","accountId":"1"}}}');
 
 /***/ })
 

@@ -1,11 +1,9 @@
-import config from "@/shared/config"
 import { useStores } from "@/shared/models"
 import { SwaggerUIX } from "@/shared/website/swagger/swagger-ui"
 import withStorage from "@/shared/withStorage"
-import { Button, Input, Space } from "antd"
+import { Button, Input } from "antd"
 import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
-import { Otp } from "../Otp/Otp"
 
 type Props = {
   swaggerUI: SwaggerUIX
@@ -19,50 +17,54 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
       swaggerTool: {
         autoExecute,
         autoInitUI,
-        platformAdminEmail: _platformAdminEmail,
-        platformAdminPassword: _platformAdminPassword,
-        platformAdminTenant: _platformAdminTenant,
-        msspEmail: _msspEmail,
-        msspPassword: _msspPassword,
-        msspTenant: _msspTenant,
-        organizationEmail: _organizationEmail,
-        organizationPassword: _organizationPassword,
-        organizationTenant: _organizationTenant,
+        adminIamUserId: _adminIamUserId = undefined,
+        adminEmail: _adminEmail = undefined,
+        adminId: _adminId = undefined,
+        performerIamUserId: _performerIamUserId = undefined,
+        performerEmail: _performerEmail = undefined,
+        performerId: _performerId = undefined,
+        userIamUserId: _userIamUserId = undefined,
+        userEmail: _userEmail = undefined,
+        userId: _userId = undefined,
         setProp,
       },
     },
   } = useStores()
-  const [platformAdminEmail, setPlatformAdminEmail] = useState(_platformAdminEmail)
-  const [platformAdminPassword, setPlatformAdminPass] = useState(_platformAdminPassword)
-  const [platformAdminTenant, setPlatformAdminTenant] = useState(_platformAdminTenant)
+  const [adminIamUserId, setAdminIamUserId] = useState(_adminIamUserId)
+  const [adminEmail, setAdminEmail] = useState(_adminEmail)
+  const [adminId, setAdminId] = useState(_adminId)
 
-  const [msspEmail, setMsspEmail] = useState(_msspEmail)
-  const [msspPassword, setMsspPass] = useState(_msspPassword)
-  const [msspTenant, setMsspTenant] = useState(_msspTenant)
+  const [performerIamUserId, setPerformerIamUserId] = useState(_performerIamUserId)
+  const [performerEmail, setPerformerEmail] = useState(_performerEmail)
+  const [performerId, setPerformerId] = useState(_performerId)
 
-  const [organizationEmail, setOrganizationEmail] = useState(_organizationEmail)
-  const [organizationPassword, setOrganizationPass] = useState(_organizationPassword)
-  const [organizationTenant, setOrganizationTenant] = useState(_organizationTenant)
+  const [userIamUserId, setUserIamUserId] = useState(_userIamUserId)
+  const [userEmail, setUserEmail] = useState(_userEmail)
+  const [userId, setUserId] = useState(_userId)
 
-  const onLoginAsPlatformAdmin = () => {
-    highlightAccountType("platform-admin")
-    swaggerUI.login(platformAdminTenant, platformAdminEmail, platformAdminPassword)
+  const onLoginAsAdmin = () => {
+    highlightAccountType("admin")
+    swaggerUI.login(adminIamUserId, adminEmail, adminId, "administrator")
   }
 
   const onLoginWithApiAccessToken = () => {
     highlightAccountType("api-access-token")
 
-    swaggerUI.loginWithApiAccessToken(platformAdminTenant, platformAdminEmail, platformAdminPassword)
+    // swaggerUI.loginWithApiAccessToken(
+    //   adminIamUserId,
+    //   adminEmail,
+    //   adminId,
+    // )
   }
 
-  const onLoginAsMssp = () => {
-    highlightAccountType("mssp")
-    swaggerUI.login(msspTenant, msspEmail, msspPassword)
+  const onLoginAsPerformer = () => {
+    highlightAccountType("performer")
+    swaggerUI.login(performerIamUserId, performerEmail, performerId, "performer")
   }
 
-  const onLoginAsOrganization = () => {
-    highlightAccountType("organization")
-    swaggerUI.login(organizationTenant, organizationEmail, organizationPassword)
+  const onLoginAsUser = () => {
+    highlightAccountType("user")
+    swaggerUI.login(userIamUserId, userEmail, userId, "user")
   }
 
   const highlightAccountType = (type: string) => {
@@ -81,75 +83,45 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
     <div className="flex flex-column items-center">
       <div className="flex items-center">
         <div className="flex items-center">
-          <p>Platform Admin</p>
+          <p>Admin</p>
           <Input
-            placeholder="Email"
-            value={platformAdminEmail}
+            placeholder="Admin Iam User ID"
+            value={adminIamUserId}
             onChange={(e) => {
-              setPlatformAdminEmail(e.target.value)
-              setProp("platformAdminEmail", e.target.value)
+              setAdminIamUserId(e.target.value)
+              setProp("adminIamUserId", e.target.value)
             }}
           />
           <Input
-            placeholder="Password"
-            value={platformAdminPassword}
+            placeholder="Admin email"
+            value={adminEmail}
             onChange={(e) => {
-              setPlatformAdminPass(e.target.value)
-              setProp("platformAdminPassword", e.target.value)
+              setAdminEmail(e.target.value)
+              setProp("adminEmail", e.target.value)
             }}
           />
           <Input
-            placeholder="Tenant"
-            value={platformAdminTenant}
+            placeholder="Admin ID"
+            value={adminId}
             onChange={(e) => {
-              setPlatformAdminTenant(e.target.value)
-              setProp("platformAdminTenant", e.target.value)
+              setAdminId(e.target.value)
+              setProp("adminId", e.target.value)
             }}
           />
-          <div className="flex items-center account platform-admin" style={{marginLeft: '10px', padding: '0 10px'}}>
-            <Button type="primary" onClick={onLoginAsPlatformAdmin}>
-              Login as Platform Admin
+          <div
+            className="flex items-center account admin-account"
+            style={{ marginLeft: "10px", padding: "0 10px" }}
+          >
+            <Button type="primary" onClick={onLoginAsAdmin}>
+              Login as Admin
             </Button>
           </div>
-          <div className="flex items-center account api-access-token" style={{marginLeft: '10px', padding: '0 10px'}}>
-          <Button type="primary" onClick={onLoginWithApiAccessToken}>
+          <div
+            className="flex items-center account api-access-token"
+            style={{ marginLeft: "10px", padding: "0 10px" }}
+          >
+            <Button type="primary" onClick={onLoginWithApiAccessToken}>
               Login with Api access token
-          </Button>
-        </div>
-        </div>
-        {/* <Otp /> */}
-      </div>
-
-      <div className="flex items-center">
-        <div className="flex items-center">
-          <p>MSSP</p>
-          <Input
-            placeholder="Email"
-            value={msspEmail}
-            onChange={(e) => {
-              setMsspEmail(e.target.value)
-              setProp("msspEmail", e.target.value)
-            }}
-          />
-          <Input
-            placeholder="Password"
-            value={msspPassword}
-            onChange={(e) => {
-              setMsspPass(e.target.value)
-              setProp("msspPassword", e.target.value)
-            }}
-          />
-          <Input
-            placeholder="Tenant"
-            value={msspTenant}
-            onChange={(e) => {
-              setMsspTenant(e.target.value)
-              setProp("msspTenant", e.target.value)
-            }}
-          />
-          <div className="flex items-center account mssp" style={{marginLeft: '10px', padding: '0 10px'}}>
-            <Button type="primary" onClick={onLoginAsMssp}>
-              Login as MSSP
             </Button>
           </div>
         </div>
@@ -158,34 +130,76 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
 
       <div className="flex items-center">
         <div className="flex items-center">
-          <p>Organization</p>
+          <p>Performer</p>
           <Input
-            placeholder="Email"
-            value={organizationEmail}
+            placeholder="Performer Iam User ID"
+            value={performerIamUserId}
             onChange={(e) => {
-              setOrganizationEmail(e.target.value)
-              setProp("organizationEmail", e.target.value)
+              setPerformerIamUserId(e.target.value)
+              setProp("performerIamUserId", e.target.value)
             }}
           />
           <Input
-            placeholder="Password"
-            value={organizationPassword}
+            placeholder="Performer email"
+            value={performerEmail}
             onChange={(e) => {
-              setOrganizationPass(e.target.value)
-              setProp("organizationPassword", e.target.value)
+              setPerformerEmail(e.target.value)
+              setProp("performerEmail", e.target.value)
             }}
           />
           <Input
-            placeholder="Tenant"
-            value={organizationTenant}
+            placeholder="Performer ID"
+            value={performerId}
             onChange={(e) => {
-              setOrganizationTenant(e.target.value)
-              setProp("organizationTenant", e.target.value)
+              setPerformerId(e.target.value)
+              setProp("performerId", e.target.value)
             }}
           />
-          <div className="flex items-center account organization" style={{marginLeft: '10px', padding: '0 10px'}}>
-            <Button type="primary" onClick={onLoginAsOrganization}>
-              Login as Organization
+          <div
+            className="flex items-center account performer-account"
+            style={{ marginLeft: "10px", padding: "0 10px" }}
+          >
+            <Button type="primary" onClick={onLoginAsPerformer}>
+              Login as Performer
+            </Button>
+          </div>
+        </div>
+        {/* <Otp /> */}
+      </div>
+
+      <div className="flex items-center">
+        <div className="flex items-center">
+          <p>User</p>
+          <Input
+            placeholder="User Iam User ID"
+            value={userIamUserId}
+            onChange={(e) => {
+              setUserIamUserId(e.target.value)
+              setProp("userIamUserId", e.target.value)
+            }}
+          />
+          <Input
+            placeholder="User email"
+            value={userEmail}
+            onChange={(e) => {
+              setUserEmail(e.target.value)
+              setProp("userEmail", e.target.value)
+            }}
+          />
+          <Input
+            placeholder="User ID"
+            value={userId}
+            onChange={(e) => {
+              setUserId(e.target.value)
+              setProp("userId", e.target.value)
+            }}
+          />
+          <div
+            className="flex items-center account user-account"
+            style={{ marginLeft: "10px", padding: "0 10px" }}
+          >
+            <Button type="primary" onClick={onLoginAsUser}>
+              Login as User
             </Button>
           </div>
         </div>

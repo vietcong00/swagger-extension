@@ -132,14 +132,14 @@ const setupSwagger = async () => {
 
         if (_rootStore.website.swaggerTool.autoInitUI) {
           await swaggerUI.initUI()
-          swaggerUI.login("", undefined, undefined, true)
+          swaggerUI.login(undefined, undefined, undefined, undefined, true)
         }
         ;(window as any).swaggerUI = swaggerUI
       }, 3000)
     }
   } else if (
     isMatchWebsite(_rootStore.website.swaggerTool.matchRegexUrls) &&
-    !window.location?.host?.includes("127.0.0.1:5500")
+    !window.location?.host?.includes("127.0.0.1:5005")
   ) {
     const SwaggerUIBundle = getGlobalVar("SwaggerUIBundle")
     if (SwaggerUIBundle) {
@@ -162,7 +162,7 @@ const setupSwagger = async () => {
 
         if (_rootStore.website.swaggerTool.autoInitUI) {
           await swaggerUI.initUI()
-          swaggerUI.login("", undefined, undefined, true)
+          swaggerUI.login(undefined, undefined, undefined, undefined, true)
         }
         ;(window as any).swaggerUI = swaggerUI
       }, 3000)

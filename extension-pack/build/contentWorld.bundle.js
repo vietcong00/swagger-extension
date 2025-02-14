@@ -93915,31 +93915,35 @@ __webpack_require__.r(__webpack_exports__);
 
 const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.observer)((props) => {
     const { swaggerUI } = props;
-    const { website: { swaggerTool: { autoExecute, autoInitUI, platformAdminEmail: _platformAdminEmail, platformAdminPassword: _platformAdminPassword, platformAdminTenant: _platformAdminTenant, msspEmail: _msspEmail, msspPassword: _msspPassword, msspTenant: _msspTenant, organizationEmail: _organizationEmail, organizationPassword: _organizationPassword, organizationTenant: _organizationTenant, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
-    const [platformAdminEmail, setPlatformAdminEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_platformAdminEmail);
-    const [platformAdminPassword, setPlatformAdminPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_platformAdminPassword);
-    const [platformAdminTenant, setPlatformAdminTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_platformAdminTenant);
-    const [msspEmail, setMsspEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_msspEmail);
-    const [msspPassword, setMsspPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_msspPassword);
-    const [msspTenant, setMsspTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_msspTenant);
-    const [organizationEmail, setOrganizationEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_organizationEmail);
-    const [organizationPassword, setOrganizationPass] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_organizationPassword);
-    const [organizationTenant, setOrganizationTenant] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_organizationTenant);
-    const onLoginAsPlatformAdmin = () => {
-        highlightAccountType("platform-admin");
-        swaggerUI.login(platformAdminTenant, platformAdminEmail, platformAdminPassword);
+    const { website: { swaggerTool: { autoExecute, autoInitUI, adminIamUserId: _adminIamUserId = undefined, adminEmail: _adminEmail = undefined, adminId: _adminId = undefined, performerIamUserId: _performerIamUserId = undefined, performerEmail: _performerEmail = undefined, performerId: _performerId = undefined, userIamUserId: _userIamUserId = undefined, userEmail: _userEmail = undefined, userId: _userId = undefined, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
+    const [adminIamUserId, setAdminIamUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminIamUserId);
+    const [adminEmail, setAdminEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminEmail);
+    const [adminId, setAdminId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminId);
+    const [performerIamUserId, setPerformerIamUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_performerIamUserId);
+    const [performerEmail, setPerformerEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_performerEmail);
+    const [performerId, setPerformerId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_performerId);
+    const [userIamUserId, setUserIamUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_userIamUserId);
+    const [userEmail, setUserEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_userEmail);
+    const [userId, setUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_userId);
+    const onLoginAsAdmin = () => {
+        highlightAccountType("admin");
+        swaggerUI.login(adminIamUserId, adminEmail, adminId, "administrator");
     };
     const onLoginWithApiAccessToken = () => {
         highlightAccountType("api-access-token");
-        swaggerUI.loginWithApiAccessToken(platformAdminTenant, platformAdminEmail, platformAdminPassword);
+        // swaggerUI.loginWithApiAccessToken(
+        //   adminIamUserId,
+        //   adminEmail,
+        //   adminId,
+        // )
     };
-    const onLoginAsMssp = () => {
-        highlightAccountType("mssp");
-        swaggerUI.login(msspTenant, msspEmail, msspPassword);
+    const onLoginAsPerformer = () => {
+        highlightAccountType("performer");
+        swaggerUI.login(performerIamUserId, performerEmail, performerId, "performer");
     };
-    const onLoginAsOrganization = () => {
-        highlightAccountType("organization");
-        swaggerUI.login(organizationTenant, organizationEmail, organizationPassword);
+    const onLoginAsUser = () => {
+        highlightAccountType("user");
+        swaggerUI.login(userIamUserId, userEmail, userId, "user");
     };
     const highlightAccountType = (type) => {
         const accountElements = document.querySelectorAll(".account");
@@ -93954,57 +93958,57 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
     return (react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex flex-column items-center" },
         react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
             react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Platform Admin"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Email", value: platformAdminEmail, onChange: (e) => {
-                        setPlatformAdminEmail(e.target.value);
-                        setProp("platformAdminEmail", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Admin"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin Iam User ID", value: adminIamUserId, onChange: (e) => {
+                        setAdminIamUserId(e.target.value);
+                        setProp("adminIamUserId", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Password", value: platformAdminPassword, onChange: (e) => {
-                        setPlatformAdminPass(e.target.value);
-                        setProp("platformAdminPassword", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin email", value: adminEmail, onChange: (e) => {
+                        setAdminEmail(e.target.value);
+                        setProp("adminEmail", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Tenant", value: platformAdminTenant, onChange: (e) => {
-                        setPlatformAdminTenant(e.target.value);
-                        setProp("platformAdminTenant", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Admin ID", value: adminId, onChange: (e) => {
+                        setAdminId(e.target.value);
+                        setProp("adminId", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account platform-admin", style: { marginLeft: '10px', padding: '0 10px' } },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsPlatformAdmin }, "Login as Platform Admin")),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account api-access-token", style: { marginLeft: '10px', padding: '0 10px' } },
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account admin-account", style: { marginLeft: "10px", padding: "0 10px" } },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsAdmin }, "Login as Admin")),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account api-access-token", style: { marginLeft: "10px", padding: "0 10px" } },
                     react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginWithApiAccessToken }, "Login with Api access token")))),
         react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
             react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "MSSP"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Email", value: msspEmail, onChange: (e) => {
-                        setMsspEmail(e.target.value);
-                        setProp("msspEmail", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Performer"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer Iam User ID", value: performerIamUserId, onChange: (e) => {
+                        setPerformerIamUserId(e.target.value);
+                        setProp("performerIamUserId", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Password", value: msspPassword, onChange: (e) => {
-                        setMsspPass(e.target.value);
-                        setProp("msspPassword", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer email", value: performerEmail, onChange: (e) => {
+                        setPerformerEmail(e.target.value);
+                        setProp("performerEmail", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Tenant", value: msspTenant, onChange: (e) => {
-                        setMsspTenant(e.target.value);
-                        setProp("msspTenant", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Performer ID", value: performerId, onChange: (e) => {
+                        setPerformerId(e.target.value);
+                        setProp("performerId", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account mssp", style: { marginLeft: '10px', padding: '0 10px' } },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsMssp }, "Login as MSSP")))),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account performer-account", style: { marginLeft: "10px", padding: "0 10px" } },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsPerformer }, "Login as Performer")))),
         react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
             react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center" },
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "Organization"),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Email", value: organizationEmail, onChange: (e) => {
-                        setOrganizationEmail(e.target.value);
-                        setProp("organizationEmail", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, "User"),
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User Iam User ID", value: userIamUserId, onChange: (e) => {
+                        setUserIamUserId(e.target.value);
+                        setProp("userIamUserId", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Password", value: organizationPassword, onChange: (e) => {
-                        setOrganizationPass(e.target.value);
-                        setProp("organizationPassword", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User email", value: userEmail, onChange: (e) => {
+                        setUserEmail(e.target.value);
+                        setProp("userEmail", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Tenant", value: organizationTenant, onChange: (e) => {
-                        setOrganizationTenant(e.target.value);
-                        setProp("organizationTenant", e.target.value);
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "User ID", value: userId, onChange: (e) => {
+                        setUserId(e.target.value);
+                        setProp("userId", e.target.value);
                     } }),
-                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account organization", style: { marginLeft: '10px', padding: '0 10px' } },
-                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsOrganization }, "Login as Organization"))))));
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center account user-account", style: { marginLeft: "10px", padding: "0 10px" } },
+                    react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_5__["default"], { type: "primary", onClick: onLoginAsUser }, "Login as User"))))));
 });
 SwaggerHeaderComponent.defaultProps = {};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_shared_withStorage__WEBPACK_IMPORTED_MODULE_1__["default"])(SwaggerHeaderComponent));
@@ -94163,7 +94167,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AUTHOR": () => (/* binding */ AUTHOR),
 /* harmony export */   "ERegexUrl": () => (/* binding */ ERegexUrl)
 /* harmony export */ });
-const AUTHOR = "Quan Le";
+const AUTHOR = "Tung NT";
 var ERegexUrl;
 (function (ERegexUrl) {
     ERegexUrl["MATCH_ALL"] = ".*";
@@ -94989,15 +94993,15 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     recaptchaSiteKey: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.recaptchaSiteKey),
     loginWithOtp: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.boolean, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.loginWithOtp),
     otpCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, ""),
-    platformAdminEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.username),
-    platformAdminPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.password),
-    platformAdminTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.tenant),
-    msspEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.username),
-    msspPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.password),
-    msspTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.tenant),
-    organizationEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.username),
-    organizationPassword: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.password),
-    organizationTenant: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.tenant),
+    adminIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.iamUserId),
+    adminEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.email),
+    adminId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.accountId),
+    performerIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.iamUserId),
+    performerEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.email),
+    performerId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.accountId),
+    userIamUserId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId),
+    userEmail: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email),
+    userId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -95016,15 +95020,15 @@ const SWAGGER_MODEL_DEFAULT = {
     loginWithOtp: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.loginWithOtp,
     matchRegexUrls: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.common.matchRegexUrls,
     otpCode: "",
-    platformAdminEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.username,
-    platformAdminPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.password,
-    platformAdminTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.platform_admin.tenant,
-    msspEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.username,
-    msspPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.password,
-    msspTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.mssp.tenant,
-    organizationEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.username,
-    organizationPassword: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.password,
-    organizationTenant: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.organization.tenant,
+    adminIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.iamUserId,
+    adminEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.email,
+    adminId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.admin.accountId,
+    performerIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.iamUserId,
+    performerEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.email,
+    performerId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.performer.accountId,
+    userIamUserId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.iamUserId,
+    userEmail: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.email,
+    userId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId,
 };
 
 
@@ -95963,40 +95967,38 @@ class SwaggerUIX {
             });
         });
     }
-    async login(_tenant, _email, _password, isFirst) {
-        if (this.loginMethod === "1") {
-            await this.login1(_tenant, _email, _password, isFirst);
+    async login(_iamUserId, _email, _accountId, _accountType, isFirst) {
+        const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
+        const loginUrl = this._baseUrl
+            ? `${this._baseUrl}/test/auth/login`
+            : `${location.origin}/api/v1/test/auth/login`;
+        let iamUserId = _iamUserId;
+        let accountType = _accountType;
+        let email = _email;
+        let accountId = _accountId;
+        if (isFirst) {
+            iamUserId = _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.adminIamUserId;
+            accountType = "administrator";
+            email = _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.admin.email;
+            accountId = _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.admin.accountId;
         }
         else {
-            await this.login2(_tenant, _email, _password, isFirst);
+            iamUserId = iamUserId ?? _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.adminIamUserId;
+            accountType = accountType ?? "administrator";
+            email = email ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.admin.email;
+            accountId = accountId ?? _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.admin.accountId;
         }
-    }
-    async login1(_tenant, _email, _password, isFirst) {
-        const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
-        const loginUrl = this._baseUrl
-            ? `${this._baseUrl}/auth/login`
-            : `${location.origin}/api/v1/auth/login`;
-        const email = _email ??
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminEmail ??
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.username;
-        const password = _password ??
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminPassword ??
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.password;
-        const tenant = _tenant ||
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminTenant ||
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.tenant;
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {
-                fetch(loginUrl, {
+                fetch(`${loginUrl}?${new URLSearchParams(data)}`, {
                     headers: {
                         accept: "application/json, text/plain, */*",
                         "content-type": "application/json",
                         recaptcha,
-                        tenant,
+                        "x-client-device-type": "web",
                     },
-                    body: JSON.stringify(data),
-                    method: "POST",
+                    method: "GET",
                     mode: "cors",
                 })
                     .then((res) => res.json())
@@ -96022,9 +96024,10 @@ class SwaggerUIX {
         };
         (async () => {
             const payload = {
-                provider: "email",
+                iamUserId,
+                accountType,
                 email,
-                password,
+                accountId,
             };
             const res = (await callLogin(payload));
             let jwtToken = res?.data?.accessToken?.token;
@@ -96037,174 +96040,6 @@ class SwaggerUIX {
                 jwtToken = (await this.callLoginMfa({ code, provider: "mfa_code" }, jwtToken, email))?.data?.accessToken?.token;
             }
             this.setTokenToSwagger(jwtToken);
-        })();
-    }
-    async login2(_tenant, _email, _password, isFirst) {
-        const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
-        const loginUrl = this._baseUrl
-            ? `${this._baseUrl}/auth/login`
-            : `${location.origin}/api/v1/auth/login`;
-        const email = _email ??
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminEmail ??
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.username;
-        const password = _password ??
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminPassword ??
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.password;
-        const tenant = _tenant ||
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminTenant ||
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.tenant;
-        const callLogin = async (data) => {
-            const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
-            return new Promise((resolve, reject) => {
-                fetch(loginUrl, {
-                    headers: {
-                        accept: "application/json, text/plain, */*",
-                        "content-type": "application/json",
-                        recaptcha,
-                        tenant,
-                    },
-                    body: JSON.stringify(data),
-                    method: "POST",
-                    mode: "cors",
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                    if (data?.data?.profile?.mfaEnforced && !loginWithOtp) {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.warning({ message: `Need Login via OTP` });
-                        reject(new Error());
-                        return;
-                    }
-                    if (data?.data?.accessToken?.token) {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.success({ message: `Login successful [${email}]` });
-                    }
-                    else {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` });
-                    }
-                    resolve(data);
-                })
-                    .catch((err) => {
-                    _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.error({ message: `Login fail [${email}]` });
-                    this.logger.error(err);
-                });
-            });
-        };
-        (async () => {
-            const payload = {
-                provider: "email",
-                username: email,
-                password,
-            };
-            const res = (await callLogin(payload));
-            let jwtToken = res?.data?.accessToken?.token;
-            if (!jwtToken?.length) {
-                return;
-            }
-            this.logger.info(`${res?.data?.accessToken?.token}`);
-            if (loginWithOtp) {
-                const code = this.storage?.website?.swaggerTool?.otpCode ?? "";
-                jwtToken = (await this.callLoginMfa({ code, provider: "mfa_code" }, jwtToken, email))?.data?.accessToken?.token;
-            }
-            this.setTokenToSwagger(jwtToken);
-        })();
-    }
-    async loginWithApiAccessToken(_tenant, _email, _password) {
-        const loginUrl = this._baseUrl
-            ? `${this._baseUrl}/auth/login`
-            : `${location.origin}/api/v1/auth/login`;
-        const generateAPiAccessTokenUrl = this._baseUrl
-            ? `${this._baseUrl}/api-access-token`
-            : `${location.origin}/api/v1/api-access-token`;
-        const email = _email ??
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminEmail ??
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.username;
-        const password = _password ??
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminPassword ??
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.password;
-        const tenant = _tenant ||
-            _shared_models__WEBPACK_IMPORTED_MODULE_11__._rootStore.website.swaggerTool.platformAdminTenant ||
-            _shared_config__WEBPACK_IMPORTED_MODULE_6__["default"].cr.platform_admin.tenant;
-        const callLogin = async (data) => {
-            const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
-            return new Promise((resolve, reject) => {
-                fetch(loginUrl, {
-                    headers: {
-                        accept: "application/json, text/plain, */*",
-                        "content-type": "application/json",
-                        recaptcha,
-                        tenant,
-                    },
-                    body: JSON.stringify(data),
-                    method: "POST",
-                    mode: "cors",
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                    if (data?.data?.accessToken?.token) {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.success({ message: `Login successful [${email}]` });
-                    }
-                    else {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` });
-                    }
-                    resolve(data);
-                })
-                    .catch((err) => {
-                    _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.error({ message: `Login fail [${email}]` });
-                    this.logger.error(err);
-                });
-            });
-        };
-        const callGenerateApiAccessToken = async (token) => {
-            return new Promise((resolve) => {
-                fetch(generateAPiAccessTokenUrl, {
-                    headers: {
-                        accept: "application/json, text/plain, */*",
-                        "content-type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                        tenant,
-                    },
-                    body: JSON.stringify({
-                        name: "Token name",
-                    }),
-                    method: "POST",
-                    mode: "cors",
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                    if (data?.data?.token) {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.success({
-                            message: `Login With Api Access Token successful [${email}]`,
-                        });
-                    }
-                    else {
-                        _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` });
-                    }
-                    resolve(data);
-                })
-                    .catch((err) => {
-                    _shared_services_notification__WEBPACK_IMPORTED_MODULE_10__.NotificationManager.error({ message: `Login fail [${email}]` });
-                    this.logger.error(err);
-                });
-            });
-        };
-        (async () => {
-            const payload = {
-                provider: "email",
-                email,
-                password,
-            };
-            const res = (await callLogin(payload));
-            const jwtToken = res?.data?.accessToken?.token;
-            if (!jwtToken?.length) {
-                return;
-            }
-            this.logger.info(`jwtToken: ${res?.data?.accessToken?.token}`);
-            const apiAccessTokenRes = (await callGenerateApiAccessToken(jwtToken));
-            const apiAccessToken = apiAccessTokenRes?.data?.token;
-            if (!apiAccessToken?.length) {
-                return;
-            }
-            this.logger.info(`apiAccessToken ${apiAccessTokenRes?.data?.token}`);
-            this.setTokenToSwagger(apiAccessToken);
         })();
     }
 }
@@ -112701,7 +112536,7 @@ function filter (array, pattern) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"cr":{"common":{"autoInitUI":true,"recaptchaSiteKey":"","loginWithOtp":false,"matchRegexUrls":[".*"]},"platform_admin":{"username":"admin@cybereason.com","password":"Ab@12345678","tenant":"xxx"},"mssp":{"username":"tester@cybereason.com","password":"Ab@12345678","tenant":"yyy"},"organization":{"username":"tester1@cybereason.com","password":"Ab@12345678","tenant":"organizationDomain"}}}');
+module.exports = JSON.parse('{"cr":{"common":{"autoInitUI":true,"recaptchaSiteKey":"","loginWithOtp":false,"matchRegexUrls":[".*"]},"admin":{"iamUserId":"1","email":"tungnt@tokyotechlab.com","accountId":"1"},"performer":{"iamUserId":"2","email":"tungnt@tokyotechlab.com","accountId":"1"},"user":{"iamUserId":"27","email":"tungnt@tokyotechlab.com","accountId":"1"}}}');
 
 /***/ })
 
@@ -112971,7 +112806,7 @@ const setupSwagger = async () => {
                 // console.log("_rootStore.website.swaggerTool", _rootStore.website.swaggerTool)
                 if (_shared_models__WEBPACK_IMPORTED_MODULE_0__._rootStore.website.swaggerTool.autoInitUI) {
                     await swaggerUI.initUI();
-                    swaggerUI.login("", undefined, undefined, true);
+                    swaggerUI.login(undefined, undefined, undefined, undefined, true);
                 }
                 ;
                 window.swaggerUI = swaggerUI;
@@ -112979,7 +112814,7 @@ const setupSwagger = async () => {
         }
     }
     else if ((0,_shared__WEBPACK_IMPORTED_MODULE_4__.isMatchWebsite)(_shared_models__WEBPACK_IMPORTED_MODULE_0__._rootStore.website.swaggerTool.matchRegexUrls) &&
-        !window.location?.host?.includes("127.0.0.1:5500")) {
+        !window.location?.host?.includes("127.0.0.1:5005")) {
         const SwaggerUIBundle = (0,_shared__WEBPACK_IMPORTED_MODULE_4__.getGlobalVar)("SwaggerUIBundle");
         if (SwaggerUIBundle) {
             let ready = false;
@@ -112998,7 +112833,7 @@ const setupSwagger = async () => {
                 console.log("_rootStore.website.swaggerTool", _shared_models__WEBPACK_IMPORTED_MODULE_0__._rootStore.website.swaggerTool);
                 if (_shared_models__WEBPACK_IMPORTED_MODULE_0__._rootStore.website.swaggerTool.autoInitUI) {
                     await swaggerUI.initUI();
-                    swaggerUI.login("", undefined, undefined, true);
+                    swaggerUI.login(undefined, undefined, undefined, undefined, true);
                 }
                 ;
                 window.swaggerUI = swaggerUI;

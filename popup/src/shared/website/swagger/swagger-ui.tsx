@@ -690,44 +690,44 @@ export class SwaggerUIX {
     })
   }
 
-  async login(_tenant?: string, _email?: string, _password?: string, isFirst?: boolean) {
-    if (this.loginMethod === "1") {
-      await this.login1(_tenant, _email, _password, isFirst)
+  async login(
+    _iamUserId?: string,
+    _email?: string,
+    _accountId?: string,
+    _accountType?: string,
+    isFirst?: boolean,
+  ) {
+    const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
+    const loginUrl = this._baseUrl
+      ? `${this._baseUrl}/test/auth/login`
+      : `${location.origin}/api/v1/test/auth/login`
+    let iamUserId = _iamUserId
+    let accountType = _accountType
+    let email = _email
+    let accountId = _accountId
+    if (isFirst) {
+      iamUserId = _rootStore.website.swaggerTool.adminIamUserId
+      accountType = "administrator"
+      email = config.cr.admin.email
+      accountId = config.cr.admin.accountId
     } else {
-      await this.login2(_tenant, _email, _password, isFirst)
+      iamUserId = iamUserId ?? _rootStore.website.swaggerTool.adminIamUserId
+      accountType = accountType ?? "administrator"
+      email = email ?? config.cr.admin.email
+      accountId = accountId ?? config.cr.admin.accountId
     }
-  }
-
-  async login1(_tenant?: string, _email?: string, _password?: string, isFirst?: boolean) {
-    const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
-    const loginUrl = this._baseUrl
-      ? `${this._baseUrl}/auth/login`
-      : `${location.origin}/api/v1/auth/login`
-    const email =
-      _email ??
-      _rootStore.website.swaggerTool.platformAdminEmail ??
-      config.cr.platform_admin.username
-    const password =
-      _password ??
-      _rootStore.website.swaggerTool.platformAdminPassword ??
-      config.cr.platform_admin.password
-    const tenant =
-      _tenant ||
-      _rootStore.website.swaggerTool.platformAdminTenant ||
-      config.cr.platform_admin.tenant
 
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
       return new Promise((resolve, reject) => {
-        fetch(loginUrl, {
+        fetch(`${loginUrl}?${new URLSearchParams(data)}`, {
           headers: {
             accept: "application/json, text/plain, */*",
             "content-type": "application/json",
             recaptcha,
-            tenant,
+            "x-client-device-type": "web",
           },
-          body: JSON.stringify(data),
-          method: "POST",
+          method: "GET",
           mode: "cors",
         })
           .then((res) => res.json())
@@ -753,9 +753,10 @@ export class SwaggerUIX {
 
     ;(async () => {
       const payload = {
-        provider: "email",
+        iamUserId,
+        accountType,
         email,
-        password,
+        accountId,
       }
 
       const res = (await callLogin(payload)) as any
@@ -772,190 +773,6 @@ export class SwaggerUIX {
         )?.data?.accessToken?.token
       }
       this.setTokenToSwagger(jwtToken)
-    })()
-  }
-
-  async login2(_tenant?: string, _email?: string, _password?: string, isFirst?: boolean) {
-    const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
-    const loginUrl = this._baseUrl
-      ? `${this._baseUrl}/auth/login`
-      : `${location.origin}/api/v1/auth/login`
-    const email =
-      _email ??
-      _rootStore.website.swaggerTool.platformAdminEmail ??
-      config.cr.platform_admin.username
-    const password =
-      _password ??
-      _rootStore.website.swaggerTool.platformAdminPassword ??
-      config.cr.platform_admin.password
-    const tenant =
-      _tenant ||
-      _rootStore.website.swaggerTool.platformAdminTenant ||
-      config.cr.platform_admin.tenant
-    const callLogin = async (data: any) => {
-      const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
-
-      return new Promise((resolve, reject) => {
-        fetch(loginUrl, {
-          headers: {
-            accept: "application/json, text/plain, */*",
-            "content-type": "application/json",
-            recaptcha,
-            tenant,
-          },
-          body: JSON.stringify(data),
-          method: "POST",
-          mode: "cors",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data?.data?.profile?.mfaEnforced && !loginWithOtp) {
-              NotificationManager.warning({ message: `Need Login via OTP` })
-              reject(new Error())
-              return
-            }
-            if (data?.data?.accessToken?.token) {
-              NotificationManager.success({ message: `Login successful [${email}]` })
-            } else {
-              NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` })
-            }
-            resolve(data)
-          })
-          .catch((err) => {
-            NotificationManager.error({ message: `Login fail [${email}]` })
-            this.logger.error(err)
-          })
-      })
-    }
-
-    ;(async () => {
-      const payload = {
-        provider: "email",
-        username: email,
-        password,
-      }
-
-      const res = (await callLogin(payload)) as any
-      let jwtToken = res?.data?.accessToken?.token
-      if (!jwtToken?.length) {
-        return
-      }
-      this.logger.info(`${res?.data?.accessToken?.token}`)
-
-      if (loginWithOtp) {
-        const code = this.storage?.website?.swaggerTool?.otpCode ?? ""
-        jwtToken = (
-          (await this.callLoginMfa({ code, provider: "mfa_code" }, jwtToken, email)) as any
-        )?.data?.accessToken?.token
-      }
-      this.setTokenToSwagger(jwtToken)
-    })()
-  }
-
-  async loginWithApiAccessToken(_tenant?: string, _email?: string, _password?: string) {
-    const loginUrl = this._baseUrl
-      ? `${this._baseUrl}/auth/login`
-      : `${location.origin}/api/v1/auth/login`
-    const generateAPiAccessTokenUrl = this._baseUrl
-      ? `${this._baseUrl}/api-access-token`
-      : `${location.origin}/api/v1/api-access-token`
-    const email =
-      _email ??
-      _rootStore.website.swaggerTool.platformAdminEmail ??
-      config.cr.platform_admin.username
-    const password =
-      _password ??
-      _rootStore.website.swaggerTool.platformAdminPassword ??
-      config.cr.platform_admin.password
-    const tenant =
-      _tenant ||
-      _rootStore.website.swaggerTool.platformAdminTenant ||
-      config.cr.platform_admin.tenant
-
-    const callLogin = async (data: any) => {
-      const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
-      return new Promise((resolve, reject) => {
-        fetch(loginUrl, {
-          headers: {
-            accept: "application/json, text/plain, */*",
-            "content-type": "application/json",
-            recaptcha,
-            tenant,
-          },
-          body: JSON.stringify(data),
-          method: "POST",
-          mode: "cors",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data?.data?.accessToken?.token) {
-              NotificationManager.success({ message: `Login successful [${email}]` })
-            } else {
-              NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` })
-            }
-            resolve(data)
-          })
-          .catch((err) => {
-            NotificationManager.error({ message: `Login fail [${email}]` })
-            this.logger.error(err)
-          })
-      })
-    }
-    const callGenerateApiAccessToken = async (token: string) => {
-      return new Promise((resolve) => {
-        fetch(generateAPiAccessTokenUrl, {
-          headers: {
-            accept: "application/json, text/plain, */*",
-            "content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-            tenant,
-          },
-          body: JSON.stringify({
-            name: "Token name",
-          }),
-          method: "POST",
-          mode: "cors",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data?.data?.token) {
-              NotificationManager.success({
-                message: `Login With Api Access Token successful [${email}]`,
-              })
-            } else {
-              NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` })
-            }
-            resolve(data)
-          })
-          .catch((err) => {
-            NotificationManager.error({ message: `Login fail [${email}]` })
-            this.logger.error(err)
-          })
-      })
-    }
-    ;(async () => {
-      const payload = {
-        provider: "email",
-        email,
-        password,
-      }
-
-      const res = (await callLogin(payload)) as any
-      const jwtToken = res?.data?.accessToken?.token
-      if (!jwtToken?.length) {
-        return
-      }
-      this.logger.info(`jwtToken: ${res?.data?.accessToken?.token}`)
-
-      const apiAccessTokenRes = (await callGenerateApiAccessToken(jwtToken)) as any
-
-      const apiAccessToken = apiAccessTokenRes?.data?.token
-      if (!apiAccessToken?.length) {
-        return
-      }
-      this.logger.info(`apiAccessToken ${apiAccessTokenRes?.data?.token}`)
-
-      this.setTokenToSwagger(apiAccessToken)
     })()
   }
 }
