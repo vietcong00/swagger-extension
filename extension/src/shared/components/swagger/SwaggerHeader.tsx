@@ -81,9 +81,11 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
 
   return (
     <div className="flex flex-column items-center">
-      <div className="flex items-center">
-        <div className="flex items-center">
-          <p>Admin</p>
+      <div className="flex items-center" style={{ width: '100%', marginBottom: '20px' }}>
+        <div style={{ width: '100px' }}>
+          <p style={{ margin: 0 }}>Admin</p>
+        </div>
+        <div className="flex items-center" style={{ gap: '10px' }}>
           <Input
             placeholder="Admin Iam User ID"
             value={adminIamUserId}
@@ -108,29 +110,26 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               setProp("adminId", e.target.value)
             }}
           />
-          <div
-            className="flex items-center account admin-account"
-            style={{ marginLeft: "10px", padding: "0 10px" }}
-          >
+        </div>
+        <div className="flex items-center" style={{ gap: '10px', marginLeft: '10px' }}>
+          <div className="account admin-account">
             <Button type="primary" onClick={onLoginAsAdmin}>
               Login as Admin
             </Button>
           </div>
-          <div
-            className="flex items-center account api-access-token"
-            style={{ marginLeft: "10px", padding: "0 10px" }}
-          >
+          <div className="account api-access-token">
             <Button type="primary" onClick={onLoginWithApiAccessToken}>
               Login with Api access token
             </Button>
           </div>
         </div>
-        {/* <Otp /> */}
       </div>
 
-      <div className="flex items-center">
-        <div className="flex items-center">
-          <p>Performer</p>
+      <div className="flex items-center" style={{ width: '100%', marginBottom: '20px' }}>
+        <div style={{ width: '100px' }}>
+          <p style={{ margin: 0 }}>Performer</p>
+        </div>
+        <div className="flex items-center" style={{ gap: '10px' }}>
           <Input
             placeholder="Performer Iam User ID"
             value={performerIamUserId}
@@ -155,21 +154,21 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               setProp("performerId", e.target.value)
             }}
           />
-          <div
-            className="flex items-center account performer-account"
-            style={{ marginLeft: "10px", padding: "0 10px" }}
-          >
+        </div>
+        <div className="flex items-center" style={{ marginLeft: '10px' }}>
+          <div className="account performer-account">
             <Button type="primary" onClick={onLoginAsPerformer}>
               Login as Performer
             </Button>
           </div>
         </div>
-        {/* <Otp /> */}
       </div>
 
-      <div className="flex items-center">
-        <div className="flex items-center">
-          <p>User</p>
+      <div className="flex items-center" style={{ width: '100%' }}>
+        <div style={{ width: '100px' }}>
+          <p style={{ margin: 0 }}>User</p>
+        </div>
+        <div className="flex items-center" style={{ gap: '10px' }}>
           <Input
             placeholder="User Iam User ID"
             value={userIamUserId}
@@ -194,16 +193,14 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
               setProp("userId", e.target.value)
             }}
           />
-          <div
-            className="flex items-center account user-account"
-            style={{ marginLeft: "10px", padding: "0 10px" }}
-          >
+        </div>
+        <div className="flex items-center" style={{ marginLeft: '10px' }}>
+          <div className="account user-account">
             <Button type="primary" onClick={onLoginAsUser}>
               Login as User
             </Button>
           </div>
         </div>
-        {/* <Otp /> */}
       </div>
     </div>
   )
