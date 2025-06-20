@@ -88500,7 +88500,7 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
                 paddingRight: "20px",
                 borderRight: "1px solid #e8e8e8",
             } },
-            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { marginBottom: "10px" } },
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null,
                 react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Login Channel", value: loginChannel, onChange: (e) => {
                         setLoginChannel(e.target.value);
                         setProp("loginChannel", e.target.value);

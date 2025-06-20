@@ -126,7 +126,7 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
           borderRight: "1px solid #e8e8e8",
         }}
       >
-        <div style={{ marginBottom: "10px" }}>
+        <div>
           <Input
             placeholder="Login Channel"
             value={loginChannel}
