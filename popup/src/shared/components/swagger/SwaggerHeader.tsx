@@ -28,6 +28,7 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
         userId: _userId = undefined,
         loginChannel: _loginChannel = undefined,
         deviceId: _deviceId = undefined,
+        appInstanceCode: _appInstanceCode = undefined,
         setProp,
       },
     },
@@ -46,7 +47,7 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
 
   const [loginChannel, setLoginChannel] = useState(_loginChannel)
   const [deviceId, setDeviceId] = useState(_deviceId)
-
+  const [appInstanceCode, setAppInstanceCode] = useState(_appInstanceCode)
   const onLoginAsAdmin = () => {
     highlightAccountType("admin")
     swaggerUI.login(
@@ -57,6 +58,7 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
       false,
       loginChannel,
       deviceId,
+      appInstanceCode,
     )
   }
 
@@ -80,12 +82,22 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
       false,
       loginChannel,
       deviceId,
+      appInstanceCode,
     )
   }
 
   const onLoginAsUser = () => {
     highlightAccountType("user")
-    swaggerUI.login(userIamUserId, userEmail, userId, "user", false, loginChannel, deviceId)
+    swaggerUI.login(
+      userIamUserId,
+      userEmail,
+      userId,
+      "user",
+      false,
+      loginChannel,
+      deviceId,
+      appInstanceCode,
+    )
   }
 
   const highlightAccountType = (type: string) => {
@@ -131,6 +143,16 @@ export const SwaggerHeaderComponent: FC<Props> = observer((props: Props) => {
             onChange={(e) => {
               setDeviceId(e.target.value)
               setProp("deviceId", e.target.value)
+            }}
+          />
+        </div>
+        <div>
+          <Input
+            placeholder="App Instance Code"
+            value={appInstanceCode}
+            onChange={(e) => {
+              setAppInstanceCode(e.target.value)
+              setProp("appInstanceCode", e.target.value)
             }}
           />
         </div>

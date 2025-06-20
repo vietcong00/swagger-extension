@@ -698,6 +698,7 @@ export class SwaggerUIX {
     isFirst?: boolean,
     _loginChannel?: string,
     _deviceId?: string,
+    _appInstanceCode?: string,
   ) {
     const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
     const loginUrl = this._baseUrl
@@ -720,6 +721,7 @@ export class SwaggerUIX {
     }
     const loginChannel = _loginChannel || "web"
     const deviceId = _deviceId || "device-id"
+    const appInstanceCode = _appInstanceCode || "SEEDING_APP_INSTANCE_1_CODE"
 
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
@@ -731,6 +733,7 @@ export class SwaggerUIX {
             recaptcha,
             "x-client-device-type": loginChannel,
             "x-client-device-id": deviceId,
+            "x-app-instance-code": appInstanceCode,
           },
           method: "GET",
           mode: "cors",

@@ -88367,7 +88367,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.observer)((props) => {
     const { swaggerUI } = props;
-    const { website: { swaggerTool: { autoExecute, autoInitUI, adminIamUserId: _adminIamUserId = undefined, adminEmail: _adminEmail = undefined, adminId: _adminId = undefined, performerIamUserId: _performerIamUserId = undefined, performerEmail: _performerEmail = undefined, performerId: _performerId = undefined, userIamUserId: _userIamUserId = undefined, userEmail: _userEmail = undefined, userId: _userId = undefined, loginChannel: _loginChannel = undefined, deviceId: _deviceId = undefined, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
+    const { website: { swaggerTool: { autoExecute, autoInitUI, adminIamUserId: _adminIamUserId = undefined, adminEmail: _adminEmail = undefined, adminId: _adminId = undefined, performerIamUserId: _performerIamUserId = undefined, performerEmail: _performerEmail = undefined, performerId: _performerId = undefined, userIamUserId: _userIamUserId = undefined, userEmail: _userEmail = undefined, userId: _userId = undefined, loginChannel: _loginChannel = undefined, deviceId: _deviceId = undefined, appInstanceCode: _appInstanceCode = undefined, setProp, }, }, } = (0,_shared_models__WEBPACK_IMPORTED_MODULE_0__.useStores)();
     const [adminIamUserId, setAdminIamUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminIamUserId);
     const [adminEmail, setAdminEmail] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminEmail);
     const [adminId, setAdminId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_adminId);
@@ -88379,9 +88379,10 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
     const [userId, setUserId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_userId);
     const [loginChannel, setLoginChannel] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_loginChannel);
     const [deviceId, setDeviceId] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_deviceId);
+    const [appInstanceCode, setAppInstanceCode] = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(_appInstanceCode);
     const onLoginAsAdmin = () => {
         highlightAccountType("admin");
-        swaggerUI.login(adminIamUserId, adminEmail, adminId, "administrator", false, loginChannel, deviceId);
+        swaggerUI.login(adminIamUserId, adminEmail, adminId, "administrator", false, loginChannel, deviceId, appInstanceCode);
     };
     const onLoginWithApiAccessToken = () => {
         highlightAccountType("api-access-token");
@@ -88393,11 +88394,11 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
     };
     const onLoginAsPerformer = () => {
         highlightAccountType("performer");
-        swaggerUI.login(performerIamUserId, performerEmail, performerId, "performer", false, loginChannel, deviceId);
+        swaggerUI.login(performerIamUserId, performerEmail, performerId, "performer", false, loginChannel, deviceId, appInstanceCode);
     };
     const onLoginAsUser = () => {
         highlightAccountType("user");
-        swaggerUI.login(userIamUserId, userEmail, userId, "user", false, loginChannel, deviceId);
+        swaggerUI.login(userIamUserId, userEmail, userId, "user", false, loginChannel, deviceId, appInstanceCode);
     };
     const highlightAccountType = (type) => {
         // Reset all account elements first
@@ -88426,6 +88427,11 @@ const SwaggerHeaderComponent = (0,mobx_react_lite__WEBPACK_IMPORTED_MODULE_2__.o
                 react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "Device ID", value: deviceId, onChange: (e) => {
                         setDeviceId(e.target.value);
                         setProp("deviceId", e.target.value);
+                    } })),
+            react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null,
+                react__WEBPACK_IMPORTED_MODULE_3___default().createElement(antd__WEBPACK_IMPORTED_MODULE_4__["default"], { placeholder: "App Instance Code", value: appInstanceCode, onChange: (e) => {
+                        setAppInstanceCode(e.target.value);
+                        setProp("appInstanceCode", e.target.value);
                     } }))),
         react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { style: { flex: 1, paddingLeft: "20px" } },
             react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", { className: "flex items-center", style: {
@@ -89484,6 +89490,7 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     userId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId),
     loginChannel: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "web"),
     deviceId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "device-id"),
+    appInstanceCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "SEEDING_APP_INSTANCE_1_CODE"),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -89513,6 +89520,7 @@ const SWAGGER_MODEL_DEFAULT = {
     userId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId,
     loginChannel: "web",
     deviceId: "device-id",
+    appInstanceCode: "SEEDING_APP_INSTANCE_1_CODE",
 };
 
 
@@ -92473,7 +92481,7 @@ class SwaggerUIX {
             });
         });
     }
-    async login(_iamUserId, _email, _accountId, _accountType, isFirst, _loginChannel, _deviceId) {
+    async login(_iamUserId, _email, _accountId, _accountType, isFirst, _loginChannel, _deviceId, _appInstanceCode) {
         const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
         const loginUrl = this._baseUrl
             ? `${this._baseUrl}/test/auth/login`
@@ -92496,6 +92504,7 @@ class SwaggerUIX {
         }
         const loginChannel = _loginChannel || "web";
         const deviceId = _deviceId || "device-id";
+        const appInstanceCode = _appInstanceCode || "SEEDING_APP_INSTANCE_1_CODE";
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {
@@ -92506,6 +92515,7 @@ class SwaggerUIX {
                         recaptcha,
                         "x-client-device-type": loginChannel,
                         "x-client-device-id": deviceId,
+                        "x-app-instance-code": appInstanceCode,
                     },
                     method: "GET",
                     mode: "cors",

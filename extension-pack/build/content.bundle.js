@@ -22068,6 +22068,7 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     userId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId),
     loginChannel: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "web"),
     deviceId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "device-id"),
+    appInstanceCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "SEEDING_APP_INSTANCE_1_CODE"),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -22097,6 +22098,7 @@ const SWAGGER_MODEL_DEFAULT = {
     userId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId,
     loginChannel: "web",
     deviceId: "device-id",
+    appInstanceCode: "SEEDING_APP_INSTANCE_1_CODE",
 };
 
 
