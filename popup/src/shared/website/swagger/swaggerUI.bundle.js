@@ -89490,7 +89490,7 @@ const SwaggerModel = mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.compose(
     userId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId),
     loginChannel: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "web"),
     deviceId: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "device-id"),
-    appInstanceCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "SEEDING_APP_INSTANCE_1_CODE"),
+    appInstanceCode: mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.optional(mobx_state_tree__WEBPACK_IMPORTED_MODULE_3__.types.string, "yebisuApp1"),
 }))
     .named("SwaggerModel")
     .views((self) => ({}))
@@ -89520,7 +89520,7 @@ const SWAGGER_MODEL_DEFAULT = {
     userId: _shared_config__WEBPACK_IMPORTED_MODULE_2__["default"].cr.user.accountId,
     loginChannel: "web",
     deviceId: "device-id",
-    appInstanceCode: "SEEDING_APP_INSTANCE_1_CODE",
+    appInstanceCode: "yebisuApp1",
 };
 
 
@@ -92504,7 +92504,7 @@ class SwaggerUIX {
         }
         const loginChannel = _loginChannel || "web";
         const deviceId = _deviceId || "device-id";
-        const appInstanceCode = _appInstanceCode || "SEEDING_APP_INSTANCE_1_CODE";
+        const appInstanceCode = _appInstanceCode || "yebisuApp1";
         const callLogin = async (data) => {
             const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
             return new Promise((resolve, reject) => {

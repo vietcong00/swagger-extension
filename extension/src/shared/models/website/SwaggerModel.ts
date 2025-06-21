@@ -22,7 +22,7 @@ export const SwaggerModel = types
       userId: types.optional(types.string, config.cr.user.accountId),
       loginChannel: types.optional(types.string, "web"),
       deviceId: types.optional(types.string, "device-id"),
-      appInstanceCode: types.optional(types.string, "SEEDING_APP_INSTANCE_1_CODE"),
+      appInstanceCode: types.optional(types.string, "yebisuApp1"),
     }),
   )
   .named("SwaggerModel")
@@ -59,5 +59,5 @@ export const SWAGGER_MODEL_DEFAULT: SwaggerSnapshot = {
   userId: config.cr.user.accountId,
   loginChannel: "web",
   deviceId: "device-id",
-  appInstanceCode: "SEEDING_APP_INSTANCE_1_CODE",
+  appInstanceCode: "yebisuApp1",
 }

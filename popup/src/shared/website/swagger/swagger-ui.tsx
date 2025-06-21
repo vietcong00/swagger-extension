@@ -721,7 +721,7 @@ export class SwaggerUIX {
     }
     const loginChannel = _loginChannel || "web"
     const deviceId = _deviceId || "device-id"
-    const appInstanceCode = _appInstanceCode || "SEEDING_APP_INSTANCE_1_CODE"
+    const appInstanceCode = _appInstanceCode || "yebisuApp1"
 
     const callLogin = async (data: any) => {
       const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
