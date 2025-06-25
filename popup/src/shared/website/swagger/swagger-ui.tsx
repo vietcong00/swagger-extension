@@ -1,19 +1,19 @@
-import React from "react"
-import { UIManager } from "@/shared/components/UIManager"
-import { SwaggerSideBarComponent } from "@/shared/components/swagger/SwaggerSideBar"
-import { injectReplaceCSS, waitUntil } from "@/shared/helper.common"
-import { StorageType } from "@/shared/services/storage"
-import withStorage from "@/shared/withStorage"
-import { SwaggerHeaderComponent } from "@/shared/components/swagger/SwaggerHeader"
-import config from "@/shared/config"
-import { camelCase } from "lodash"
+import React from "react";
+import { UIManager } from "@/shared/components/UIManager";
+import { SwaggerSideBarComponent } from "@/shared/components/swagger/SwaggerSideBar";
+import { injectReplaceCSS, waitUntil } from "@/shared/helper.common";
+import { StorageType } from "@/shared/services/storage";
+import withStorage from "@/shared/withStorage";
+import { SwaggerHeaderComponent } from "@/shared/components/swagger/SwaggerHeader";
+import config from "@/shared/config";
+import { camelCase } from "lodash";
 import {
-  injectCopyToClipboard,
-  injectCopyToClipboardField,
-} from "@/shared/scripts/injectCopyToClipboard"
-import { SwaggerExtraRightSectionComponent } from "@/shared/components/swagger/SwaggerExtraRightSection"
-import { NotificationManager } from "@/shared/services/notification"
-import { _rootStore } from "@/shared/models"
+    injectCopyToClipboard,
+    injectCopyToClipboardField,
+} from "@/shared/scripts/injectCopyToClipboard";
+import { SwaggerExtraRightSectionComponent } from "@/shared/components/swagger/SwaggerExtraRightSection";
+import { NotificationManager } from "@/shared/services/notification";
+import { _rootStore } from "@/shared/models";
 
 // function whenAvailable(name: any, callback: any) {
 //     const interval = 10; // ms
@@ -26,145 +26,175 @@ import { _rootStore } from "@/shared/models"
 //     }, interval);
 // }
 
-const ID_SIDE_BAR = "side-bar"
-const ID_EXTRA_RIGHT = "extra-right"
-const ID_HEADER = "ql-sw-header"
+const ID_SIDE_BAR = "side-bar";
+const ID_EXTRA_RIGHT = "extra-right";
+const ID_HEADER = "ql-sw-header";
 
-export function querySelectorIncludesText(selector: string, text: string, parent = document) {
-  try {
-    return Array.from(parent?.querySelectorAll?.(selector))?.find((el) =>
-      el?.textContent?.includes(text),
-    )
-  } catch (error) {
-    return null
-  }
+export function querySelectorIncludesText(
+    selector: string,
+    text: string,
+    parent = document
+) {
+    try {
+        return Array.from(parent?.querySelectorAll?.(selector))?.find((el) =>
+            el?.textContent?.includes(text)
+        );
+    } catch (error) {
+        return null;
+    }
 }
 
 export function createElementFromHTML(htmlString: string) {
-  const div = document.createElement("div")
-  div.innerHTML = htmlString.trim()
+    const div = document.createElement("div");
+    div.innerHTML = htmlString.trim();
 
-  return div.firstChild as HTMLElement
+    return div.firstChild as HTMLElement;
 }
 
-export function polling(callback: () => boolean, execute: () => void, maxRetry = 1000) {
-  const interval = 100 // ms
-  if (maxRetry <= 0) {
-    return
-  }
-  const id = setTimeout(function () {
-    if (callback()) {
-      execute()
-      id && clearTimeout(id)
-    } else {
-      polling(callback, execute, maxRetry - 1)
-      id && clearTimeout(id)
+export function polling(
+    callback: () => boolean,
+    execute: () => void,
+    maxRetry = 1000
+) {
+    const interval = 100; // ms
+    if (maxRetry <= 0) {
+        return;
     }
-  }, interval)
+    const id = setTimeout(function () {
+        if (callback()) {
+            execute();
+            id && clearTimeout(id);
+        } else {
+            polling(callback, execute, maxRetry - 1);
+            id && clearTimeout(id);
+        }
+    }, interval);
 }
 
 export class GroupApi {
-  id!: string
-  name: string
-  $el: HTMLSpanElement
-  apiList: Api[] = []
-  href: string
-  swaggerUI!: SwaggerUIX
+    id!: string;
+    name: string;
+    $el: HTMLSpanElement;
+    apiList: Api[] = [];
+    href: string;
+    swaggerUI!: SwaggerUIX;
 
-  get $inner(): HTMLDivElement {
-    return this.$el.querySelector("div.opblock") as HTMLDivElement
-  }
+    get $inner(): HTMLDivElement {
+        return this.$el.querySelector("div.opblock") as HTMLDivElement;
+    }
 
-  constructor(opts: { $el: HTMLSpanElement; swaggerUI: SwaggerUIX }) {
-    this.$el = opts.$el
-    this.swaggerUI = opts.swaggerUI
-    this.name = this.$el?.querySelector("h3")?.getAttribute("data-tag") ?? ""
-    this.id = `group-${camelCase(this.name)}`
-    this.$el.id = this.id
+    constructor(opts: { $el: HTMLSpanElement; swaggerUI: SwaggerUIX }) {
+        this.$el = opts.$el;
+        this.swaggerUI = opts.swaggerUI;
+        this.name =
+            this.$el?.querySelector("h3")?.getAttribute("data-tag") ?? "";
+        this.id = `group-${camelCase(this.name)}`;
+        this.$el.id = this.id;
 
-    this.apiList = Array.from(
-      this.$el.querySelector("div.operation-tag-content")?.childNodes as any,
-    )?.map(($el: any) => new Api({ $el, parent: this }))
-    this.href = this.$el.querySelector("h3 a")?.getAttribute("href") ?? ""
-  }
+        this.apiList = Array.from(
+            this.$el.querySelector("div.operation-tag-content")
+                ?.childNodes as any
+        )?.map(($el: any) => new Api({ $el, parent: this }));
+        this.href = this.$el.querySelector("h3 a")?.getAttribute("href") ?? "";
+    }
 }
 
 export class Api {
-  id!: string
-  description: string
-  path: string
-  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH"
-  href: string
-  $el: HTMLSpanElement
-  parent: GroupApi
-  $btnExpand: HTMLButtonElement
-  swaggerUI!: SwaggerUIX
+    id!: string;
+    description: string;
+    path: string;
+    method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+    href: string;
+    $el: HTMLSpanElement;
+    parent: GroupApi;
+    $btnExpand: HTMLButtonElement;
+    swaggerUI!: SwaggerUIX;
 
-  get $responsesInner(): HTMLDivElement {
-    return this.$el.querySelector("div.responses-inner") as HTMLDivElement
-  }
+    get $responsesInner(): HTMLDivElement {
+        return this.$el.querySelector("div.responses-inner") as HTMLDivElement;
+    }
 
-  get $responsesTableExample(): HTMLTableElement {
-    return this.$el.querySelector("table.responses-table[aria-live='polite']") as HTMLTableElement
-  }
+    get $responsesTableExample(): HTMLTableElement {
+        return this.$el.querySelector(
+            "table.responses-table[aria-live='polite']"
+        ) as HTMLTableElement;
+    }
 
-  get $responsesTableLive(): HTMLTableElement {
-    return this.$el.querySelector("table.responses-table.live-responses-table") as HTMLTableElement
-  }
+    get $responsesTableLive(): HTMLTableElement {
+        return this.$el.querySelector(
+            "table.responses-table.live-responses-table"
+        ) as HTMLTableElement;
+    }
 
-  get $codePreResponse(): HTMLTableElement {
-    return this.$responsesTableLive?.querySelector("pre code") as HTMLTableElement
-  }
+    get $codePreResponse(): HTMLTableElement {
+        return this.$responsesTableLive?.querySelector(
+            "pre code"
+        ) as HTMLTableElement;
+    }
 
-  get $responseHeaders(): HTMLDivElement {
-    return querySelectorIncludesText("h5", "Response headers", this.$responsesTableLive as any)
-      ?.parentElement as HTMLDivElement
-  }
+    get $responseHeaders(): HTMLDivElement {
+        return querySelectorIncludesText(
+            "h5",
+            "Response headers",
+            this.$responsesTableLive as any
+        )?.parentElement as HTMLDivElement;
+    }
 
-  get isExpanded(): boolean {
-    return this.$btnExpand.getAttribute("aria-expanded") === "true"
-  }
+    get isExpanded(): boolean {
+        return this.$btnExpand.getAttribute("aria-expanded") === "true";
+    }
 
-  set isExpanded(value: boolean) {
-    this.$btnExpand.setAttribute("aria-expanded", value ? "true" : "false")
-  }
+    set isExpanded(value: boolean) {
+        this.$btnExpand.setAttribute("aria-expanded", value ? "true" : "false");
+    }
 
-  get shortPath() {
-    return this.path.replace(/\/api\/v1\//g, "")
-  }
+    get shortPath() {
+        return this.path.replace(/\/api\/v1\//g, "");
+    }
 
-  constructor(opts: { $el: HTMLSpanElement; parent: GroupApi }) {
-    this.$el = opts.$el
-    this.parent = opts.parent
-    this.swaggerUI = opts.parent.swaggerUI
-    this.method = (this.$el?.querySelector(".opblock-summary-method")?.textContent?.toUpperCase() ??
-      "") as any
-    this.path = this.$el?.querySelector(".opblock-summary-path")?.getAttribute("data-path") ?? ""
-    this.description = this.$el?.querySelector(".opblock-summary-description")?.textContent ?? ""
-    this.href = this.$el?.querySelector(".opblock-summary-path a")?.getAttribute("href") ?? ""
-    this.$btnExpand = this.$el.querySelector("button.opblock-control-arrow") as any
-    this.id = `api-${camelCase(this.method)}-${camelCase(this.path)}`
-    this.$el.id = this.id
-    // if (this.parent?.$inner) {
-    //   new MutationObserver((mutations) => {
-    //     mutations.forEach((mutation) => {
-    //       if (mutation.type === "childList") {
-    //         polling(
-    //           () => !!this.$responsesInner,
-    //           () => {
-    //           },
-    //         )
-    //       }
-    //     })
-    //   }).observe(this.parent.$inner, {
-    //     childList: true,
-    //   })
-    // }
-    this.handleHiddenResponseExample()
-  }
+    constructor(opts: { $el: HTMLSpanElement; parent: GroupApi }) {
+        this.$el = opts.$el;
+        this.parent = opts.parent;
+        this.swaggerUI = opts.parent.swaggerUI;
+        this.method = (this.$el
+            ?.querySelector(".opblock-summary-method")
+            ?.textContent?.toUpperCase() ?? "") as any;
+        this.path =
+            this.$el
+                ?.querySelector(".opblock-summary-path")
+                ?.getAttribute("data-path") ?? "";
+        this.description =
+            this.$el?.querySelector(".opblock-summary-description")
+                ?.textContent ?? "";
+        this.href =
+            this.$el
+                ?.querySelector(".opblock-summary-path a")
+                ?.getAttribute("href") ?? "";
+        this.$btnExpand = this.$el.querySelector(
+            "button.opblock-control-arrow"
+        ) as any;
+        this.id = `api-${camelCase(this.method)}-${camelCase(this.path)}`;
+        this.$el.id = this.id;
+        // if (this.parent?.$inner) {
+        //   new MutationObserver((mutations) => {
+        //     mutations.forEach((mutation) => {
+        //       if (mutation.type === "childList") {
+        //         polling(
+        //           () => !!this.$responsesInner,
+        //           () => {
+        //           },
+        //         )
+        //       }
+        //     })
+        //   }).observe(this.parent.$inner, {
+        //     childList: true,
+        //   })
+        // }
+        this.handleHiddenResponseExample();
+    }
 
-  generateCss() {
-    return `
+    generateCss() {
+        return `
     #${this.id} .opblock-body table.parameters tbody {
       display: flex;
       flex-wrap: wrap;
@@ -183,7 +213,9 @@ export class Api {
       padding: 1px 9px;
       border-color: aliceblue;
     }
-    #${this.id} .opblock-body table.parameters tbody tr .parameters-col_description {
+    #${
+        this.id
+    } .opblock-body table.parameters tbody tr .parameters-col_description {
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -198,589 +230,656 @@ export class Api {
     #${this.id} .opblock-body table.parameters tbody tr .parameters-col_name {
       padding: 5px 0px;
     }
-    #${this.id} .opblock-body table.parameters tbody tr .parameters-col_name .parameter__name {
+    #${
+        this.id
+    } .opblock-body table.parameters tbody tr .parameters-col_name .parameter__name {
       font-weight: bold;
     }
-    #${this.id} .opblock-body table.parameters tbody tr .parameters-col_name .parameter__type {
-      display: none;
-    }
-    #${this.id} .opblock-body table.parameters tbody tr .parameters-col_name .parameter__in {
+    #${
+        this.id
+    } .opblock-body table.parameters tbody tr .parameters-col_name .parameter__type {
       display: none;
     }
     #${
-      this.id
+        this.id
+    } .opblock-body table.parameters tbody tr .parameters-col_name .parameter__in {
+      display: none;
+    }
+    #${
+        this.id
     } .opblock-body table.parameters tbody tr .parameters-col_name .parameter__deprecated {
       display: none;
     }
 
     ${this.generateResponseTableCss()}
-    `
-  }
+    `;
+    }
 
-  generateResponseTableCss() {
-    return `
+    generateResponseTableCss() {
+        return `
       #${this.id} .responses-wrapper .responses-inner table.live-responses-table {
         display: none;
       }
-    `
-  }
-
-  injectCopyToClipboardField() {
-    const pre = this?.$responsesTableLive?.querySelector("pre") as HTMLPreElement
-    if (pre) {
-      injectCopyToClipboardField(pre, this.swaggerUI)
+    `;
     }
-  }
 
-  handleHiddenResponseExample() {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === "attributes") {
-          if (this.isExpanded) {
-            console.log("handleHiddenResponseExample")
-
-            this.handleChangeResponseLive()
-            polling(
-              () => !!this.$responsesTableExample?.style,
-              () => {
-                this.$responsesTableExample.style.display = "none"
-              },
-            )
-          }
+    injectCopyToClipboardField() {
+        const pre = this?.$responsesTableLive?.querySelector(
+            "pre"
+        ) as HTMLPreElement;
+        if (pre) {
+            injectCopyToClipboardField(pre, this.swaggerUI);
         }
-      })
-    })
-    observer.observe(this.$btnExpand, {
-      attributes: true,
-    })
-  }
-
-  onChangeExpanded(cb: (expanded: boolean) => void) {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === "attributes") {
-          if (this.isExpanded) {
-            // eslint-disable-next-line node/no-callback-literal
-            cb(true)
-          } else {
-            // eslint-disable-next-line node/no-callback-literal
-            cb(false)
-          }
-        }
-      })
-    })
-    observer.observe(this.$btnExpand, {
-      attributes: true,
-      attributeFilter: ["aria-expanded"],
-    })
-  }
-
-  hideResponseHeader() {
-    if (this.$responseHeaders?.style) {
-      this.$responseHeaders.style.display = "none"
     }
-  }
 
-  handleChangeResponseLive() {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === "childList") {
-          if (this.isExpanded) {
-            console.log("handleChangeResponseLive")
+    handleHiddenResponseExample() {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === "attributes") {
+                    if (this.isExpanded) {
+                        console.log("handleHiddenResponseExample");
 
-            polling(
-              () => !!this.$responseHeaders?.style,
-              () => {
-                this.$responseHeaders.style.display = "none"
-              },
-            )
-
-            // polling(
-            //   () => !!this.$codePreResponse?.style,
-            //   () => {
-            //     this.injectCopyToClipboardField()
-            //     // this.handleChangeCodePre()
-            //   },
-            // )
-          }
-        }
-      })
-    })
-    if (this.$responsesInner) {
-      // this.injectCopyToClipboardField()
-      console.log("handleChangeResponseLive", "success")
-      observer.observe(this.$responsesInner, {
-        childList: true,
-      })
+                        this.handleChangeResponseLive();
+                        polling(
+                            () => !!this.$responsesTableExample?.style,
+                            () => {
+                                this.$responsesTableExample.style.display =
+                                    "none";
+                            }
+                        );
+                    }
+                }
+            });
+        });
+        observer.observe(this.$btnExpand, {
+            attributes: true,
+        });
     }
-  }
 
-  handleChangeCodePre() {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === "childList") {
-          if (this.isExpanded) {
-            console.log("handleChangeCodePre")
-            this.injectCopyToClipboardField()
-          }
-        }
-      })
-    })
-    if (this.$codePreResponse) {
-      // observer.observe(this.$codePreResponse, {
-      //   childList: true,
-      // })
+    onChangeExpanded(cb: (expanded: boolean) => void) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === "attributes") {
+                    if (this.isExpanded) {
+                        // eslint-disable-next-line node/no-callback-literal
+                        cb(true);
+                    } else {
+                        // eslint-disable-next-line node/no-callback-literal
+                        cb(false);
+                    }
+                }
+            });
+        });
+        observer.observe(this.$btnExpand, {
+            attributes: true,
+            attributeFilter: ["aria-expanded"],
+        });
     }
-  }
+
+    hideResponseHeader() {
+        if (this.$responseHeaders?.style) {
+            this.$responseHeaders.style.display = "none";
+        }
+    }
+
+    handleChangeResponseLive() {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === "childList") {
+                    if (this.isExpanded) {
+                        console.log("handleChangeResponseLive");
+
+                        polling(
+                            () => !!this.$responseHeaders?.style,
+                            () => {
+                                this.$responseHeaders.style.display = "none";
+                            }
+                        );
+
+                        // polling(
+                        //   () => !!this.$codePreResponse?.style,
+                        //   () => {
+                        //     this.injectCopyToClipboardField()
+                        //     // this.handleChangeCodePre()
+                        //   },
+                        // )
+                    }
+                }
+            });
+        });
+        if (this.$responsesInner) {
+            // this.injectCopyToClipboardField()
+            console.log("handleChangeResponseLive", "success");
+            observer.observe(this.$responsesInner, {
+                childList: true,
+            });
+        }
+    }
+
+    handleChangeCodePre() {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === "childList") {
+                    if (this.isExpanded) {
+                        console.log("handleChangeCodePre");
+                        this.injectCopyToClipboardField();
+                    }
+                }
+            });
+        });
+        if (this.$codePreResponse) {
+            // observer.observe(this.$codePreResponse, {
+            //   childList: true,
+            // })
+        }
+    }
 }
 
 export class SwaggerUIX {
-  logger = {
-    error: (...args: any[]) => {
-      console.error("[SWAGGER] [ERROR]", args)
-    },
-    info: (...args: any[]) => {
-      console.info("[SWAGGER] [INFO]", ...args)
-    },
-  }
+    logger = {
+        error: (...args: any[]) => {
+            console.error("[SWAGGER] [ERROR]", args);
+        },
+        info: (...args: any[]) => {
+            console.info("[SWAGGER] [INFO]", ...args);
+        },
+    };
 
-  get storage() {
-    return _rootStore
-  }
-
-  _baseUrl!: string
-  mouseEvent: MouseEvent | null = null
-  groupApiList: GroupApi[] = []
-  swaggerUIBundle: any
-  $sideBar: HTMLDivElement = createElementFromHTML(
-    `<div id="${ID_SIDE_BAR}" class="side-bar"></div>`,
-  ) as HTMLDivElement
-
-  $extraRight: HTMLDivElement = createElementFromHTML(
-    `<div id="${ID_EXTRA_RIGHT}" class="${ID_EXTRA_RIGHT}"></div>`,
-  ) as HTMLDivElement
-
-  $headerWrapper: HTMLDivElement = createElementFromHTML(
-    `<div id="${ID_HEADER}"></div>`,
-  ) as HTMLDivElement
-
-  get baseUrl() {
-    return this.swaggerUIBundle?.getState()?.toJSON()?.spec?.json?.servers?.[0]?.url
-  }
-
-  get reCaptchaSiteKey(): string {
-    return _rootStore.website.swaggerTool.recaptchaSiteKey
-  }
-
-  get $swaggerContainer(): HTMLDivElement {
-    return document.querySelector("#swagger-ui") as HTMLDivElement
-  }
-
-  get $schemaContainer(): HTMLDivElement {
-    return document.querySelector("div.scheme-container") as HTMLDivElement
-  }
-
-  get $topBar(): HTMLDivElement {
-    return document.querySelector("div.topbar") as HTMLDivElement
-  }
-
-  get $informationContainerWrapper(): HTMLDivElement {
-    return document.querySelector(".information-container.wrapper") as HTMLDivElement
-  }
-
-  get $mainWrapper(): HTMLDivElement {
-    return this.$sectionWrapper.parentElement as HTMLDivElement
-  }
-
-  get $schemesWrapper() {
-    return document.querySelector("section.schemes.wrapper") as HTMLDivElement
-  }
-
-  get $sectionWrapper(): HTMLDivElement {
-    return document.querySelector("div.wrapper > section.block.block-desktop") as HTMLDivElement
-  }
-
-  get $models() {
-    return document.querySelector("section.models") as HTMLDivElement
-  }
-
-  get $opblockSummaryPaths() {
-    return document.querySelectorAll(".opblock-summary-path") as NodeListOf<HTMLDivElement>
-  }
-
-  storageType: StorageType = "chromeStorage"
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, no-useless-constructor
-  constructor(opts?: {
-    initOnPageLoaded?: boolean
-    storageType?: StorageType
-    swaggerUIBundle: any
-  }) {
-    this.swaggerUIBundle = opts?.swaggerUIBundle
-    const { initOnPageLoaded = false, storageType = "chromeStorage" } = opts ?? {}
-    this.storageType = storageType
-    if (initOnPageLoaded) {
-      document.addEventListener("DOMContentLoaded", () => {
-        this.initUI()
-      })
-    }
-    this.trackMouse()
-    this.handleResponseInterceptor()
-  }
-
-  async initUI() {
-    await this.onPageLoaded()
-  }
-
-  handleResponseInterceptor() {
-    this.onResponse((response) => {
-      setTimeout(() => {
-        this.injectCopyToClipboardField()
-      }, 1000)
-    })
-  }
-
-  // injectReCaptcha = (siteKey: string) => {
-  //   const recaptcha = document.createElement("script")
-  //   recaptcha.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`
-  //   recaptcha.async = true
-  //   recaptcha.defer = true
-  //   document.head.appendChild(recaptcha)
-  // }
-
-  async getRecaptchaToken(action: string) {
-    try {
-      return ""
-      // await waitUntil(async () => !!(await reCaptchaRef?.current?.getReCaptchaToken()))
-      // const token = await reCaptchaRef.current?.getReCaptchaToken(action)
-      // return token
-      // eslint-disable-next-line no-unreachable
-    } catch (error: any) {
-      // NotificationManager.error({ message: error.message })
-      // return null
+    get storage() {
+        return _rootStore;
     }
 
-    // const grecaptcha = getGlobalVar("grecaptcha") as any
-    // return new Promise<string | null>((resolve) => {
-    //   if (grecaptcha) {
-    //     grecaptcha
-    //       .execute(this.reCaptchaSiteKey, { action: "submit" })
-    //       .then(function (token: string) {
-    //         console.log(token)
-    //         resolve(token)
-    //       })
-    //   } else {
-    //     resolve(null)
-    //   }
-    // })
-  }
+    _baseUrl!: string;
+    mouseEvent: MouseEvent | null = null;
+    groupApiList: GroupApi[] = [];
+    swaggerUIBundle: any;
+    $sideBar: HTMLDivElement = createElementFromHTML(
+        `<div id="${ID_SIDE_BAR}" class="side-bar"></div>`
+    ) as HTMLDivElement;
 
-  onResponse(cb: (r: any) => void) {
-    if (this.swaggerUIBundle) {
-      this.swaggerUIBundle.getConfigs().responseInterceptor = (response: any) => {
-        cb(response)
-      }
+    $extraRight: HTMLDivElement = createElementFromHTML(
+        `<div id="${ID_EXTRA_RIGHT}" class="${ID_EXTRA_RIGHT}"></div>`
+    ) as HTMLDivElement;
+
+    $headerWrapper: HTMLDivElement = createElementFromHTML(
+        `<div id="${ID_HEADER}"></div>`
+    ) as HTMLDivElement;
+
+    get baseUrl() {
+        return this.swaggerUIBundle?.getState()?.toJSON()?.spec?.json
+            ?.servers?.[0]?.url;
     }
-  }
 
-  async onPageLoaded() {
-    await waitUntil(() => !!this.$sectionWrapper?.firstChild?.childNodes, 1500, 20)
+    get reCaptchaSiteKey(): string {
+        return _rootStore.website.swaggerTool.recaptchaSiteKey;
+    }
 
-    this.hideUINotNeeded()
-    const els = Array.from((this.$sectionWrapper?.firstChild?.childNodes as any) ?? [])
+    get $swaggerContainer(): HTMLDivElement {
+        return document.querySelector("#swagger-ui") as HTMLDivElement;
+    }
 
-    els?.forEach(($el: any) => {
-      this.groupApiList.push(new GroupApi({ $el, swaggerUI: this }))
-    })
+    get $schemaContainer(): HTMLDivElement {
+        return document.querySelector("div.scheme-container") as HTMLDivElement;
+    }
 
-    await this.changeLayout()
-    document.addEventListener("change", (e) => {
-      this.groupApiList.forEach((groupApi) => {
-        groupApi.apiList.forEach((api) => {
-          api?.hideResponseHeader()
-        })
-      })
-    })
-  }
+    get $topBar(): HTMLDivElement {
+        return document.querySelector("div.topbar") as HTMLDivElement;
+    }
 
-  async changeLayout() {
-    this.$schemesWrapper.prepend(this.$headerWrapper)
-    this.$mainWrapper.prepend(this.$sideBar)
-    this.$mainWrapper.append(this.$extraRight)
-    this.$extraRight.style.maxWidth = `40rem`
-    this.$extraRight.style.minWidth = `40rem`
+    get $informationContainerWrapper(): HTMLDivElement {
+        return document.querySelector(
+            ".information-container.wrapper"
+        ) as HTMLDivElement;
+    }
 
-    this.$extraRight.style.overflowY = `auto`
+    get $mainWrapper(): HTMLDivElement {
+        return this.$sectionWrapper.parentElement as HTMLDivElement;
+    }
 
-    this.$schemesWrapper.style.justifyContent = "space-between"
+    get $schemesWrapper() {
+        return document.querySelector(
+            "section.schemes.wrapper"
+        ) as HTMLDivElement;
+    }
 
-    this.$mainWrapper.style.display = "flex"
-    this.$mainWrapper.style.flexDirection = "row"
-    this.$mainWrapper.style.maxWidth = `fit-content`
-    this.$mainWrapper.style.padding = `0px 30px`
+    get $sectionWrapper(): HTMLDivElement {
+        return document.querySelector(
+            "div.wrapper > section.block.block-desktop"
+        ) as HTMLDivElement;
+    }
 
-    this.$mainWrapper.style.height = `${window.innerHeight - 210}px`
-    this.$mainWrapper.style.backgroundColor = `#eaeaea`
+    get $models() {
+        return document.querySelector("section.models") as HTMLDivElement;
+    }
 
-    this.$sideBar.style.width = `40rem`
-    this.$sideBar.style.overflowY = `auto`
-    // this.$sideBar.style.marginRight = `3rem`
-    this.$sectionWrapper.style.width = `100rem`
-    this.$sectionWrapper.style.padding = `0 2rem`
-    this.$sectionWrapper.style.overflow = `auto`
-    this.$sectionWrapper.style.maxHeight = `60rem`
-    this.$swaggerContainer.style.maxHeight = `${window.innerHeight}px`
-    this.$swaggerContainer.style.overflow = `hidden`
+    get $opblockSummaryPaths() {
+        return document.querySelectorAll(
+            ".opblock-summary-path"
+        ) as NodeListOf<HTMLDivElement>;
+    }
 
-    this.$opblockSummaryPaths.forEach((element) => {
-      element.style.maxWidth = `calc(100% - 8rem)`
-    })
-    const SwaggerSideBar = withStorage(SwaggerSideBarComponent, { storageType: this.storageType })
-    const SwaggerHeader = withStorage(SwaggerHeaderComponent, { storageType: this.storageType })
-    const SwaggerExtraRightSection = withStorage(SwaggerExtraRightSectionComponent, {
-      storageType: this.storageType,
-    })
-    // const ReCaptchaCom = withStorage(ReCaptcha, { storageType: this.storageType })
+    storageType: StorageType = "chromeStorage";
 
-    UIManager.render({ Component: <SwaggerSideBar swaggerUI={this} />, id: ID_SIDE_BAR })
-    UIManager.render({ Component: <SwaggerHeader swaggerUI={this} />, id: ID_HEADER })
-    UIManager.render({
-      Component: <SwaggerExtraRightSection swaggerUI={this} />,
-      id: ID_EXTRA_RIGHT,
-    })
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, no-useless-constructor
+    constructor(opts?: {
+        initOnPageLoaded?: boolean;
+        storageType?: StorageType;
+        swaggerUIBundle: any;
+    }) {
+        this.swaggerUIBundle = opts?.swaggerUIBundle;
+        const { initOnPageLoaded = false, storageType = "chromeStorage" } =
+            opts ?? {};
+        this.storageType = storageType;
+        if (initOnPageLoaded) {
+            document.addEventListener("DOMContentLoaded", () => {
+                this.initUI();
+            });
+        }
+        this.trackMouse();
+        this.handleResponseInterceptor();
+    }
 
-    this.injectCss()
-  }
+    async initUI() {
+        await this.onPageLoaded();
+    }
 
-  injectCss() {
-    const apis: Api[] = []
-    this.groupApiList?.forEach((g) => apis.push(...(g?.apiList ?? [])))
-    let css = `
+    handleResponseInterceptor() {
+        this.onResponse((response) => {
+            setTimeout(() => {
+                this.injectCopyToClipboardField();
+            }, 1000);
+        });
+    }
+
+    // injectReCaptcha = (siteKey: string) => {
+    //   const recaptcha = document.createElement("script")
+    //   recaptcha.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`
+    //   recaptcha.async = true
+    //   recaptcha.defer = true
+    //   document.head.appendChild(recaptcha)
+    // }
+
+    async getRecaptchaToken(action: string) {
+        try {
+            return "";
+            // await waitUntil(async () => !!(await reCaptchaRef?.current?.getReCaptchaToken()))
+            // const token = await reCaptchaRef.current?.getReCaptchaToken(action)
+            // return token
+            // eslint-disable-next-line no-unreachable
+        } catch (error: any) {
+            // NotificationManager.error({ message: error.message })
+            // return null
+        }
+
+        // const grecaptcha = getGlobalVar("grecaptcha") as any
+        // return new Promise<string | null>((resolve) => {
+        //   if (grecaptcha) {
+        //     grecaptcha
+        //       .execute(this.reCaptchaSiteKey, { action: "submit" })
+        //       .then(function (token: string) {
+        //         console.log(token)
+        //         resolve(token)
+        //       })
+        //   } else {
+        //     resolve(null)
+        //   }
+        // })
+    }
+
+    onResponse(cb: (r: any) => void) {
+        if (this.swaggerUIBundle) {
+            this.swaggerUIBundle.getConfigs().responseInterceptor = (
+                response: any
+            ) => {
+                cb(response);
+            };
+        }
+    }
+
+    async onPageLoaded() {
+        await waitUntil(
+            () => !!this.$sectionWrapper?.firstChild?.childNodes,
+            1500,
+            20
+        );
+
+        this.hideUINotNeeded();
+        const els = Array.from(
+            (this.$sectionWrapper?.firstChild?.childNodes as any) ?? []
+        );
+
+        els?.forEach(($el: any) => {
+            this.groupApiList.push(new GroupApi({ $el, swaggerUI: this }));
+        });
+
+        await this.changeLayout();
+        document.addEventListener("change", (e) => {
+            this.groupApiList.forEach((groupApi) => {
+                groupApi.apiList.forEach((api) => {
+                    api?.hideResponseHeader();
+                });
+            });
+        });
+    }
+
+    async changeLayout() {
+        this.$schemesWrapper.prepend(this.$headerWrapper);
+        this.$mainWrapper.prepend(this.$sideBar);
+        this.$mainWrapper.append(this.$extraRight);
+        this.$extraRight.style.maxWidth = `40rem`;
+        this.$extraRight.style.minWidth = `40rem`;
+
+        this.$extraRight.style.overflowY = `auto`;
+
+        this.$schemesWrapper.style.justifyContent = "space-between";
+
+        this.$mainWrapper.style.display = "flex";
+        this.$mainWrapper.style.flexDirection = "row";
+        this.$mainWrapper.style.maxWidth = `fit-content`;
+        this.$mainWrapper.style.padding = `0px 30px`;
+
+        this.$mainWrapper.style.height = `${window.innerHeight - 210}px`;
+        this.$mainWrapper.style.backgroundColor = `#eaeaea`;
+
+        this.$sideBar.style.width = `40rem`;
+        this.$sideBar.style.overflowY = `auto`;
+        // this.$sideBar.style.marginRight = `3rem`
+        this.$sectionWrapper.style.width = `100rem`;
+        this.$sectionWrapper.style.padding = `0 2rem`;
+        this.$sectionWrapper.style.overflow = `auto`;
+        this.$sectionWrapper.style.maxHeight = `60rem`;
+        this.$swaggerContainer.style.maxHeight = `${window.innerHeight}px`;
+        this.$swaggerContainer.style.overflow = `hidden`;
+
+        this.$opblockSummaryPaths.forEach((element) => {
+            element.style.maxWidth = `calc(100% - 8rem)`;
+        });
+        const SwaggerSideBar = withStorage(SwaggerSideBarComponent, {
+            storageType: this.storageType,
+        });
+        const SwaggerHeader = withStorage(SwaggerHeaderComponent, {
+            storageType: this.storageType,
+        });
+        const SwaggerExtraRightSection = withStorage(
+            SwaggerExtraRightSectionComponent,
+            {
+                storageType: this.storageType,
+            }
+        );
+        // const ReCaptchaCom = withStorage(ReCaptcha, { storageType: this.storageType })
+
+        UIManager.render({
+            Component: <SwaggerSideBar swaggerUI={this} />,
+            id: ID_SIDE_BAR,
+        });
+        UIManager.render({
+            Component: <SwaggerHeader swaggerUI={this} />,
+            id: ID_HEADER,
+        });
+        UIManager.render({
+            Component: <SwaggerExtraRightSection swaggerUI={this} />,
+            id: ID_EXTRA_RIGHT,
+        });
+
+        this.injectCss();
+    }
+
+    injectCss() {
+        const apis: Api[] = [];
+        this.groupApiList?.forEach((g) => apis.push(...(g?.apiList ?? [])));
+        let css = `
       input {
         color: black;
       }
-    `
-    apis.forEach((a) => (css += " " + a.generateCss()))
-    injectReplaceCSS(css)
-  }
-
-  hideUINotNeeded() {
-    // hide top bar
-    if (this.$topBar?.style) {
-      this.$topBar.style.display = "none"
+    `;
+        apis.forEach((a) => (css += " " + a.generateCss()));
+        injectReplaceCSS(css);
     }
-    if (this.$informationContainerWrapper?.style) {
-      this.$informationContainerWrapper.style.display = "none"
+
+    hideUINotNeeded() {
+        // hide top bar
+        if (this.$topBar?.style) {
+            this.$topBar.style.display = "none";
+        }
+        if (this.$informationContainerWrapper?.style) {
+            this.$informationContainerWrapper.style.display = "none";
+        }
+        if (this.$schemaContainer?.style) {
+            this.$schemaContainer.style.padding = `10px 0`;
+        }
+        if (this.$models?.style) {
+            this.$models.style.display = "none";
+        }
     }
-    if (this.$schemaContainer?.style) {
-      this.$schemaContainer.style.padding = `10px 0`
+
+    injectCopyToClipboard() {
+        injectCopyToClipboard();
     }
-    if (this.$models?.style) {
-      this.$models.style.display = "none"
+
+    injectCopyToClipboardField() {
+        this.groupApiList.forEach((g) => {
+            g.apiList.forEach((api) => {
+                api.injectCopyToClipboardField();
+            });
+        });
     }
-  }
 
-  injectCopyToClipboard() {
-    injectCopyToClipboard()
-  }
-
-  injectCopyToClipboardField() {
-    this.groupApiList.forEach((g) => {
-      g.apiList.forEach((api) => {
-        api.injectCopyToClipboardField()
-      })
-    })
-  }
-
-  trackMouse() {
-    const onMouseUpdate = (e: MouseEvent) => {
-      this.mouseEvent = e
+    trackMouse() {
+        const onMouseUpdate = (e: MouseEvent) => {
+            this.mouseEvent = e;
+        };
+        document.addEventListener("mousemove", onMouseUpdate, false);
+        document.addEventListener("mouseenter", onMouseUpdate, false);
     }
-    document.addEventListener("mousemove", onMouseUpdate, false)
-    document.addEventListener("mouseenter", onMouseUpdate, false)
-  }
 
-  get ButtonOpenForm() {
-    const openAuthFormUnlockButton = document.querySelector(
-      ".auth-wrapper .authorize.unlocked",
-    ) as HTMLButtonElement
-    const openAuthFormLockButton = document.querySelector(
-      ".auth-wrapper .authorize.locked",
-    ) as HTMLButtonElement
-    return {
-      openAuthFormUnlockButton,
-      openAuthFormLockButton,
-      isReady: !!openAuthFormUnlockButton || !!openAuthFormLockButton,
+    get ButtonOpenForm() {
+        const openAuthFormUnlockButton = document.querySelector(
+            ".auth-wrapper .authorize.unlocked"
+        ) as HTMLButtonElement;
+        const openAuthFormLockButton = document.querySelector(
+            ".auth-wrapper .authorize.locked"
+        ) as HTMLButtonElement;
+        return {
+            openAuthFormUnlockButton,
+            openAuthFormLockButton,
+            isReady: !!openAuthFormUnlockButton || !!openAuthFormLockButton,
+        };
     }
-  }
 
-  get FormElement() {
-    const closeButton = document.querySelector("button.btn-done") as HTMLButtonElement
-    const tokenInput = document.querySelector(".auth-container input") as HTMLInputElement
+    get FormElement() {
+        const closeButton = document.querySelector(
+            "button.btn-done"
+        ) as HTMLButtonElement;
+        const tokenInput = document.querySelector(
+            ".auth-container input"
+        ) as HTMLInputElement;
 
-    const authButton = document.querySelector(
-      ".auth-btn-wrapper .modal-btn.auth",
-    ) as HTMLButtonElement
+        const authButton = document.querySelector(
+            ".auth-btn-wrapper .modal-btn.auth"
+        ) as HTMLButtonElement;
 
-    return {
-      closeButton,
-      tokenInput,
-      authButton,
-      isReady: !!closeButton,
+        return {
+            closeButton,
+            tokenInput,
+            authButton,
+            isReady: !!closeButton,
+        };
     }
-  }
 
-  async setTokenToSwagger(jwtToken: string) {
-    await waitUntil(() => this.ButtonOpenForm.isReady, 50, 40)
-    if (this.ButtonOpenForm.openAuthFormLockButton) {
-      this.ButtonOpenForm.openAuthFormLockButton?.click()
-    } else {
-      this.ButtonOpenForm.openAuthFormUnlockButton?.click()
+    async setTokenToSwagger(jwtToken: string) {
+        await waitUntil(() => this.ButtonOpenForm.isReady, 50, 40);
+        if (this.ButtonOpenForm.openAuthFormLockButton) {
+            this.ButtonOpenForm.openAuthFormLockButton?.click();
+        } else {
+            this.ButtonOpenForm.openAuthFormUnlockButton?.click();
+        }
+        await waitUntil(() => this.FormElement.isReady, 50, 40);
+        if (!this.FormElement.tokenInput) {
+            // logout
+            this.FormElement.authButton?.click();
+        }
+        await waitUntil(() => !!this.FormElement.tokenInput, 50, 40);
+
+        const nativeInputValueSetter = (Object as any).getOwnPropertyDescriptor(
+            window?.HTMLInputElement?.prototype,
+            "value"
+        ).set as any;
+
+        nativeInputValueSetter?.call(this.FormElement.tokenInput, jwtToken);
+
+        const inputEvent = new Event("input", { bubbles: true });
+        this.FormElement.tokenInput.dispatchEvent(inputEvent);
+        this.FormElement.authButton.click();
+        this.FormElement.closeButton?.click();
     }
-    await waitUntil(() => this.FormElement.isReady, 50, 40)
-    if (!this.FormElement.tokenInput) {
-      // logout
-      this.FormElement.authButton?.click()
+
+    loginMethod: "1" | "2" = "1";
+
+    async callLoginMfa(data: any, token: string, email: string) {
+        const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
+
+        return new Promise((resolve) => {
+            fetch(`${location.origin}/api/v1/auth/mfa/login`, {
+                headers: {
+                    accept: "application/json, text/plain, */*",
+                    "content-type": "application/json",
+                    recaptcha,
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+                method: "POST",
+                mode: "cors",
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data?.data?.accessToken?.token) {
+                        NotificationManager.success({
+                            message: `[OTP] Login successful [${email}]`,
+                        });
+                    } else {
+                        NotificationManager.error({
+                            message: `[OTP] Login fail [${JSON.stringify(
+                                data
+                            )}]`,
+                        });
+                    }
+                    resolve(data);
+                })
+                .catch((err) => {
+                    NotificationManager.error({
+                        message: `[OTP] Login fail [${email}]`,
+                    });
+                    this.logger.error(err);
+                });
+        });
     }
-    await waitUntil(() => !!this.FormElement.tokenInput, 50, 40)
 
-    const nativeInputValueSetter = (Object as any).getOwnPropertyDescriptor(
-      window?.HTMLInputElement?.prototype,
-      "value",
-    ).set as any
+    async login(
+        _iamUserId?: string,
+        _email?: string,
+        _accountId?: string,
+        _accountType?: string,
+        isFirst?: boolean,
+        _loginChannel?: string,
+        _deviceId?: string,
+        _appInstanceCode?: string
+    ) {
+        const loginWithOtp = isFirst
+            ? false
+            : this.storage?.website?.swaggerTool?.loginWithOtp ?? false;
+        const loginUrl = this._baseUrl
+            ? `${this._baseUrl}/test/auth/login`
+            : `${location.origin}/api/v1/test/auth/login`;
+        let iamUserId = _iamUserId;
+        let accountType = _accountType;
+        let email = _email;
+        let accountId = _accountId;
+        if (isFirst) {
+            iamUserId = _rootStore.website.swaggerTool.adminIamUserId;
+            accountType = "administrator";
+            email = config.cr.admin.email;
+            accountId = config.cr.admin.accountId;
+        } else {
+            iamUserId =
+                iamUserId ?? _rootStore.website.swaggerTool.adminIamUserId;
+            accountType = accountType ?? "administrator";
+            email = email ?? config.cr.admin.email;
+            accountId = accountId ?? config.cr.admin.accountId;
+        }
+        const loginChannel = _loginChannel || "web";
+        const deviceId = _deviceId || "device-id";
+        const appInstanceCode = _appInstanceCode || "yebisuUserApp1";
 
-    nativeInputValueSetter?.call(this.FormElement.tokenInput, jwtToken)
+        const callLogin = async (data: any) => {
+            const recaptcha = ""; // (await this.getRecaptchaToken("LOGIN")) || ""
+            return new Promise((resolve, reject) => {
+                fetch(`${loginUrl}?${new URLSearchParams(data)}`, {
+                    headers: {
+                        accept: "application/json, text/plain, */*",
+                        "content-type": "application/json",
+                        recaptcha,
+                        "x-client-device-type": loginChannel,
+                        "x-client-device-id": deviceId,
+                        "x-app-instance-code": appInstanceCode,
+                    },
+                    method: "GET",
+                    mode: "cors",
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data?.data?.profile?.mfaEnforced && !loginWithOtp) {
+                            NotificationManager.warning({
+                                message: `Need Login via OTP`,
+                            });
+                            reject(new Error());
+                            return;
+                        }
+                        if (data?.data?.accessToken?.token) {
+                            NotificationManager.success({
+                                message: `Login successful [${email}]`,
+                            });
+                        } else {
+                            NotificationManager.error({
+                                message: `Login fail [${JSON.stringify(data)}]`,
+                            });
+                        }
+                        resolve(data);
+                    })
+                    .catch((err) => {
+                        NotificationManager.error({
+                            message: `Login fail [${email}]`,
+                        });
+                        this.logger.error(err);
+                    });
+            });
+        };
 
-    const inputEvent = new Event("input", { bubbles: true })
-    this.FormElement.tokenInput.dispatchEvent(inputEvent)
-    this.FormElement.authButton.click()
-    this.FormElement.closeButton?.click()
-  }
+        (async () => {
+            const payload = {
+                iamUserId,
+                accountType,
+                email,
+                accountId,
+            };
 
-  loginMethod: "1" | "2" = "1"
-
-  async callLoginMfa(data: any, token: string, email: string) {
-    const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
-
-    return new Promise((resolve) => {
-      fetch(`${location.origin}/api/v1/auth/mfa/login`, {
-        headers: {
-          accept: "application/json, text/plain, */*",
-          "content-type": "application/json",
-          recaptcha,
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-        method: "POST",
-        mode: "cors",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.data?.accessToken?.token) {
-            NotificationManager.success({ message: `[OTP] Login successful [${email}]` })
-          } else {
-            NotificationManager.error({ message: `[OTP] Login fail [${JSON.stringify(data)}]` })
-          }
-          resolve(data)
-        })
-        .catch((err) => {
-          NotificationManager.error({ message: `[OTP] Login fail [${email}]` })
-          this.logger.error(err)
-        })
-    })
-  }
-
-  async login(
-    _iamUserId?: string,
-    _email?: string,
-    _accountId?: string,
-    _accountType?: string,
-    isFirst?: boolean,
-    _loginChannel?: string,
-    _deviceId?: string,
-    _appInstanceCode?: string,
-  ) {
-    const loginWithOtp = isFirst ? false : this.storage?.website?.swaggerTool?.loginWithOtp ?? false
-    const loginUrl = this._baseUrl
-      ? `${this._baseUrl}/test/auth/login`
-      : `${location.origin}/api/v1/test/auth/login`
-    let iamUserId = _iamUserId
-    let accountType = _accountType
-    let email = _email
-    let accountId = _accountId
-    if (isFirst) {
-      iamUserId = _rootStore.website.swaggerTool.adminIamUserId
-      accountType = "administrator"
-      email = config.cr.admin.email
-      accountId = config.cr.admin.accountId
-    } else {
-      iamUserId = iamUserId ?? _rootStore.website.swaggerTool.adminIamUserId
-      accountType = accountType ?? "administrator"
-      email = email ?? config.cr.admin.email
-      accountId = accountId ?? config.cr.admin.accountId
-    }
-    const loginChannel = _loginChannel || "web"
-    const deviceId = _deviceId || "device-id"
-    const appInstanceCode = _appInstanceCode || "yebisuApp1"
-
-    const callLogin = async (data: any) => {
-      const recaptcha = "" // (await this.getRecaptchaToken("LOGIN")) || ""
-      return new Promise((resolve, reject) => {
-        fetch(`${loginUrl}?${new URLSearchParams(data)}`, {
-          headers: {
-            accept: "application/json, text/plain, */*",
-            "content-type": "application/json",
-            recaptcha,
-            "x-client-device-type": loginChannel,
-            "x-client-device-id": deviceId,
-            "x-app-instance-code": appInstanceCode,
-          },
-          method: "GET",
-          mode: "cors",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data?.data?.profile?.mfaEnforced && !loginWithOtp) {
-              NotificationManager.warning({ message: `Need Login via OTP` })
-              reject(new Error())
-              return
+            const res = (await callLogin(payload)) as any;
+            let jwtToken = res?.data?.accessToken?.token;
+            if (!jwtToken?.length) {
+                return;
             }
-            if (data?.data?.accessToken?.token) {
-              NotificationManager.success({ message: `Login successful [${email}]` })
-            } else {
-              NotificationManager.error({ message: `Login fail [${JSON.stringify(data)}]` })
+            this.logger.info(`${res?.data?.accessToken?.token}`);
+
+            if (loginWithOtp) {
+                const code = this.storage?.website?.swaggerTool?.otpCode ?? "";
+                jwtToken = (
+                    (await this.callLoginMfa(
+                        { code, provider: "mfa_code" },
+                        jwtToken,
+                        email
+                    )) as any
+                )?.data?.accessToken?.token;
             }
-            resolve(data)
-          })
-          .catch((err) => {
-            NotificationManager.error({ message: `Login fail [${email}]` })
-            this.logger.error(err)
-          })
-      })
+            this.setTokenToSwagger(jwtToken);
+        })();
     }
-
-    ;(async () => {
-      const payload = {
-        iamUserId,
-        accountType,
-        email,
-        accountId,
-      }
-
-      const res = (await callLogin(payload)) as any
-      let jwtToken = res?.data?.accessToken?.token
-      if (!jwtToken?.length) {
-        return
-      }
-      this.logger.info(`${res?.data?.accessToken?.token}`)
-
-      if (loginWithOtp) {
-        const code = this.storage?.website?.swaggerTool?.otpCode ?? ""
-        jwtToken = (
-          (await this.callLoginMfa({ code, provider: "mfa_code" }, jwtToken, email)) as any
-        )?.data?.accessToken?.token
-      }
-      this.setTokenToSwagger(jwtToken)
-    })()
-  }
 }
